@@ -19,9 +19,15 @@
 		IMPORT	LED_GAUCHE_ON
 		IMPORT	LED_GAUCHE_OFF
 
-;	Controle Switch
+;	État switchs
 		IMPORT	SWITCH_INIT
 		IMPORT	SWITCH_1
+		IMPORT	SWITCH_2
+			
+;	États bumper
+		IMPORT	BUMPER_INIT
+		IMPORT	BUMPER_DROIT
+		IMPORT	BUMPER_GAUCHE
 
 ;	Initialisation des variables et constante
 mode	EQU		0
@@ -33,9 +39,14 @@ __main
 		BL	MOTEUR_INIT
 		BL	LED_INIT
 		BL	SWITCH_INIT
+		BL	BUMPER_INIT
 
 loop	
-		BL	SWITCH_1
+		BL	BUMPER_DROIT
+		CMP	r0, #0
+		BEQ mode_one
+		
+		BL	BUMPER_GAUCHE
 		CMP	r0, #0
 		BEQ mode_one
 		
@@ -44,9 +55,8 @@ loop
 		B	loop
 		
 mode_one
-		BL	LED_DROITE_ON
 		BL	LED_GAUCHE_OFF
-
+		BL	LED_DROITE_ON
 		
 		B	loop
 		

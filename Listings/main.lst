@@ -39,46 +39,57 @@ ARM Macro Assembler    Page 1
    19 00000000                 IMPORT           LED_GAUCHE_ON
    20 00000000                 IMPORT           LED_GAUCHE_OFF
    21 00000000         
-   22 00000000         ; Controle Switch
+   22 00000000         ; État switchs
    23 00000000                 IMPORT           SWITCH_INIT
    24 00000000                 IMPORT           SWITCH_1
-   25 00000000         
-   26 00000000         ; Initialisation des variables et constante
-   27 00000000 00000000 
+   25 00000000                 IMPORT           SWITCH_2
+   26 00000000         
+   27 00000000         ; États bumper
+   28 00000000                 IMPORT           BUMPER_INIT
+   29 00000000                 IMPORT           BUMPER_DROIT
+   30 00000000                 IMPORT           BUMPER_GAUCHE
+   31 00000000         
+   32 00000000         ; Initialisation des variables et constante
+   33 00000000 00000000 
                        mode    EQU              0
-   28 00000000         
-   29 00000000                 ENTRY
-   30 00000000                 EXPORT           __main
-   31 00000000         __main
-   32 00000000         
-   33 00000000 F7FF FFFE       BL               MOTEUR_INIT
-   34 00000004 F7FF FFFE       BL               LED_INIT
-   35 00000008 F7FF FFFE       BL               SWITCH_INIT
-   36 0000000C         
-   37 0000000C         loop
-   38 0000000C F7FF FFFE       BL               SWITCH_1
-   39 00000010 2800            CMP              r0, #0
-   40 00000012 D004            BEQ              mode_one
-   41 00000014         
-   42 00000014 F7FF FFFE       BL               LED_DROITE_OFF
-   43 00000018 F7FF FFFE       BL               LED_GAUCHE_ON
-   44 0000001C E7F6            B                loop
+   34 00000000         
+   35 00000000                 ENTRY
+   36 00000000                 EXPORT           __main
+   37 00000000         __main
+   38 00000000         
+   39 00000000 F7FF FFFE       BL               MOTEUR_INIT
+   40 00000004 F7FF FFFE       BL               LED_INIT
+   41 00000008 F7FF FFFE       BL               SWITCH_INIT
+   42 0000000C F7FF FFFE       BL               BUMPER_INIT
+   43 00000010         
+   44 00000010         loop
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   45 0000001E         
-   46 0000001E         mode_one
-   47 0000001E F7FF FFFE       BL               LED_DROITE_ON
-   48 00000022 F7FF FFFE       BL               LED_GAUCHE_OFF
-   49 00000026         
-   50 00000026         
-   51 00000026 E7F1            B                loop
-   52 00000028         
-   53 00000028 BF00            nop
-   54 0000002A                 END
+   45 00000010 F7FF FFFE       BL               BUMPER_DROIT
+   46 00000014 2800            CMP              r0, #0
+   47 00000016 D008            BEQ              mode_one
+   48 00000018         
+   49 00000018 F7FF FFFE       BL               BUMPER_GAUCHE
+   50 0000001C 2800            CMP              r0, #0
+   51 0000001E D004            BEQ              mode_one
+   52 00000020         
+   53 00000020 F7FF FFFE       BL               LED_DROITE_OFF
+   54 00000024 F7FF FFFE       BL               LED_GAUCHE_ON
+   55 00000028 E7F2            B                loop
+   56 0000002A         
+   57 0000002A         mode_one
+   58 0000002A F7FF FFFE       BL               LED_GAUCHE_OFF
+   59 0000002E F7FF FFFE       BL               LED_DROITE_ON
+   60 00000032         
+   61 00000032         
+   62 00000032 E7ED            B                loop
+   63 00000034         
+   64 00000034 BF00            nop
+   65 00000036                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\objects\main.d -o.\objects\main.o -I.\RTE\_Target_1 -IC:\Users\l
 oicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC:\Users\loic
@@ -104,27 +115,28 @@ __main 00000000
 
 Symbol: __main
    Definitions
-      At line 31 in file Programs\main.s
+      At line 37 in file Programs\main.s
    Uses
-      At line 30 in file Programs\main.s
+      At line 36 in file Programs\main.s
 Comment: __main used once
-loop 0000000C
+loop 00000010
 
 Symbol: loop
    Definitions
-      At line 37 in file Programs\main.s
-   Uses
       At line 44 in file Programs\main.s
-      At line 51 in file Programs\main.s
+   Uses
+      At line 55 in file Programs\main.s
+      At line 62 in file Programs\main.s
 
-mode_one 0000001E
+mode_one 0000002A
 
 Symbol: mode_one
    Definitions
-      At line 46 in file Programs\main.s
+      At line 57 in file Programs\main.s
    Uses
-      At line 40 in file Programs\main.s
-Comment: mode_one used once
+      At line 47 in file Programs\main.s
+      At line 51 in file Programs\main.s
+
 4 symbols
 
 
@@ -136,7 +148,7 @@ mode 00000000
 
 Symbol: mode
    Definitions
-      At line 27 in file Programs\main.s
+      At line 33 in file Programs\main.s
    Uses
       None
 Comment: mode unused
@@ -147,13 +159,37 @@ Comment: mode unused
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 External symbols
 
+BUMPER_DROIT 00000000
+
+Symbol: BUMPER_DROIT
+   Definitions
+      At line 29 in file Programs\main.s
+   Uses
+      At line 45 in file Programs\main.s
+Comment: BUMPER_DROIT used once
+BUMPER_GAUCHE 00000000
+
+Symbol: BUMPER_GAUCHE
+   Definitions
+      At line 30 in file Programs\main.s
+   Uses
+      At line 49 in file Programs\main.s
+Comment: BUMPER_GAUCHE used once
+BUMPER_INIT 00000000
+
+Symbol: BUMPER_INIT
+   Definitions
+      At line 28 in file Programs\main.s
+   Uses
+      At line 42 in file Programs\main.s
+Comment: BUMPER_INIT used once
 LED_DROITE_OFF 00000000
 
 Symbol: LED_DROITE_OFF
    Definitions
       At line 18 in file Programs\main.s
    Uses
-      At line 42 in file Programs\main.s
+      At line 53 in file Programs\main.s
 Comment: LED_DROITE_OFF used once
 LED_DROITE_ON 00000000
 
@@ -161,7 +197,7 @@ Symbol: LED_DROITE_ON
    Definitions
       At line 17 in file Programs\main.s
    Uses
-      At line 47 in file Programs\main.s
+      At line 59 in file Programs\main.s
 Comment: LED_DROITE_ON used once
 LED_GAUCHE_OFF 00000000
 
@@ -169,7 +205,7 @@ Symbol: LED_GAUCHE_OFF
    Definitions
       At line 20 in file Programs\main.s
    Uses
-      At line 48 in file Programs\main.s
+      At line 58 in file Programs\main.s
 Comment: LED_GAUCHE_OFF used once
 LED_GAUCHE_ON 00000000
 
@@ -177,15 +213,21 @@ Symbol: LED_GAUCHE_ON
    Definitions
       At line 19 in file Programs\main.s
    Uses
-      At line 43 in file Programs\main.s
+      At line 54 in file Programs\main.s
 Comment: LED_GAUCHE_ON used once
 LED_INIT 00000000
 
 Symbol: LED_INIT
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+External symbols
+
    Definitions
       At line 16 in file Programs\main.s
    Uses
-      At line 34 in file Programs\main.s
+      At line 40 in file Programs\main.s
 Comment: LED_INIT used once
 MOTEUR_DROIT_ARRIERE 00000000
 
@@ -206,12 +248,6 @@ Comment: MOTEUR_DROIT_AVANT unused
 MOTEUR_DROIT_OFF 00000000
 
 Symbol: MOTEUR_DROIT_OFF
-
-
-
-ARM Macro Assembler    Page 2 Alphabetic symbol ordering
-External symbols
-
    Definitions
       At line 7 in file Programs\main.s
    Uses
@@ -247,6 +283,12 @@ Symbol: MOTEUR_GAUCHE_OFF
    Definitions
       At line 11 in file Programs\main.s
    Uses
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+External symbols
+
       None
 Comment: MOTEUR_GAUCHE_OFF unused
 MOTEUR_GAUCHE_ON 00000000
@@ -263,7 +305,7 @@ Symbol: MOTEUR_INIT
    Definitions
       At line 5 in file Programs\main.s
    Uses
-      At line 33 in file Programs\main.s
+      At line 39 in file Programs\main.s
 Comment: MOTEUR_INIT used once
 SWITCH_1 00000000
 
@@ -271,21 +313,23 @@ Symbol: SWITCH_1
    Definitions
       At line 24 in file Programs\main.s
    Uses
+      None
+Comment: SWITCH_1 unused
+SWITCH_2 00000000
 
-
-
-ARM Macro Assembler    Page 3 Alphabetic symbol ordering
-External symbols
-
-      At line 38 in file Programs\main.s
-Comment: SWITCH_1 used once
+Symbol: SWITCH_2
+   Definitions
+      At line 25 in file Programs\main.s
+   Uses
+      None
+Comment: SWITCH_2 unused
 SWITCH_INIT 00000000
 
 Symbol: SWITCH_INIT
    Definitions
       At line 23 in file Programs\main.s
    Uses
-      At line 35 in file Programs\main.s
+      At line 41 in file Programs\main.s
 Comment: SWITCH_INIT used once
-16 symbols
-355 symbols in table
+20 symbols
+359 symbols in table

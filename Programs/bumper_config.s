@@ -1,29 +1,29 @@
 ; Définition des constantes
 SYSCTL_PERIPH_GPIO EQU		0x400FE108	; Adresse du registre des ports ABCDEF
 
-GPIO_PORTD_BASE		EQU		0x40007000		; GPIO Port D (APB) base: 0x4000.7000 (p416 datasheet de lm3s9B92.pdf)
+GPIO_PORTE_BASE		EQU		0x40024000	; GPIO Port E (APB) base: 0x4002.5000 (p416 datasheet de lm3s9B92.pdf)
 
 GPIO_O_DEN  		EQU 	0x0000051C  ; GPIO Digital Enable (p437 datasheet de lm3s9B92.pdf)
 
 ; Pul_up
 GPIO_I_PUR   		EQU 	0x00000510  ; GPIO Pull-Up (p432 datasheet de lm3s9B92.pdf)
 
-BROCHE6				EQU 	0x40		; bouton poussoir 1
-BROCHE7				EQU		0x80		; bouton poussoir 2
+BROCHE0				EQU 	0x01		; bumper 1 sur broche 0
+BROCHE1				EQU		0x02		; bumper 2 sur broche 1
 
 
 		AREA    |.text|, CODE, READONLY
 		ENTRY
 		
-		EXPORT 	SWITCH_INIT
-		EXPORT	SWITCH_1
-		EXPORT	SWITCH_2
+		EXPORT 	BUMPER_INIT
+		EXPORT	BUMPER_DROIT
+		EXPORT	BUMPER_GAUCHE
 
-SWITCH_INIT
-; Alimentation du port D
+BUMPER_INIT
+; Alimentation du port E
 	ldr R6, = SYSCTL_PERIPH_GPIO  			;; RCGC2
 	ldr	R0, [R6] 		
-	ORR	R0, R0, #0x08  ; Active le port D dans le registre
+	ORR	R0, R0, #0x10  ; Active le port E dans le registre
 	str R0, [R6]
 	
 	nop ; Attend les 3 ticks avant de pouvoir utiliser le port
@@ -31,36 +31,36 @@ SWITCH_INIT
 	nop
 
 ;	Activation des fonctions numérique
-	ldr R6, = GPIO_PORTD_BASE+GPIO_O_DEN
+	ldr R6, = GPIO_PORTE_BASE+GPIO_O_DEN
 	ldr	R0, [R6] 		
-	ORR	R0, R0, #BROCHE6
+	ORR	R0, R0, #BROCHE0
 	str R0, [R6]
 	
-	ldr R6, = GPIO_PORTD_BASE+GPIO_O_DEN
+	ldr R6, = GPIO_PORTE_BASE+GPIO_O_DEN
 	ldr	R0, [R6] 		
-	ORR	R0, R0, #BROCHE7
+	ORR	R0, R0, #BROCHE1
 	str R0, [R6]
 	
 ;	Pul_up 
-	ldr R6, = GPIO_PORTD_BASE+GPIO_I_PUR 			
+	ldr R6, = GPIO_PORTE_BASE+GPIO_I_PUR 			
 	ldr	R0, [R6] 		
-	ORR	R0, R0, #BROCHE6
+	ORR	R0, R0, #BROCHE0
 	str R0, [R6]
 	
-	ldr R6, = GPIO_PORTD_BASE+GPIO_I_PUR 			
+	ldr R6, = GPIO_PORTE_BASE+GPIO_I_PUR 			
 	ldr	R0, [R6] 		
-	ORR	R0, R0, #BROCHE7
+	ORR	R0, R0, #BROCHE1
 	str R0, [R6]
 	
 	BX LR
 	
-SWITCH_1
-	ldr r0, = GPIO_PORTD_BASE + (BROCHE6<<2)
+BUMPER_DROIT
+	ldr r0, = GPIO_PORTE_BASE + (BROCHE0<<2)
 	ldr r0, [r0]
 	BX	LR
 	
-SWITCH_2
-	ldr r0, = GPIO_PORTD_BASE + (BROCHE7<<2)
+BUMPER_GAUCHE
+	ldr r0, = GPIO_PORTE_BASE + (BROCHE1<<2)
 	ldr r0, [r0]
 	BX	LR
 	

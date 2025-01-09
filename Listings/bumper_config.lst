@@ -11,10 +11,10 @@ ARM Macro Assembler    Page 1
                                                             re des ports ABCDEF
                                                             
     3 00000000         
-    4 00000000 40007000 
-                       GPIO_PORTD_BASE
-                               EQU              0x40007000  ; GPIO Port D (APB)
-                                                             base: 0x4000.7000 
+    4 00000000 40024000 
+                       GPIO_PORTE_BASE
+                               EQU              0x40024000  ; GPIO Port E (APB)
+                                                             base: 0x4002.5000 
                                                             (p416 datasheet de 
                                                             lm3s9B92.pdf)
     5 00000000         
@@ -31,28 +31,28 @@ ARM Macro Assembler    Page 1
                                                             2 datasheet de lm3s
                                                             9B92.pdf)
    10 00000000         
-   11 00000000 00000040 
-                       BROCHE6 EQU              0x40        ; bouton poussoir 1
-                                                            
-   12 00000000 00000080 
-                       BROCHE7 EQU              0x80        ; bouton poussoir 2
-                                                            
+   11 00000000 00000001 
+                       BROCHE0 EQU              0x01        ; bumper 1 sur broc
+                                                            he 0
+   12 00000000 00000002 
+                       BROCHE1 EQU              0x02        ; bumper 2 sur broc
+                                                            he 1
    13 00000000         
    14 00000000         
    15 00000000                 AREA             |.text|, CODE, READONLY
    16 00000000                 ENTRY
    17 00000000         
-   18 00000000                 EXPORT           SWITCH_INIT
-   19 00000000                 EXPORT           SWITCH_1
-   20 00000000                 EXPORT           SWITCH_2
+   18 00000000                 EXPORT           BUMPER_INIT
+   19 00000000                 EXPORT           BUMPER_DROIT
+   20 00000000                 EXPORT           BUMPER_GAUCHE
    21 00000000         
-   22 00000000         SWITCH_INIT
-   23 00000000         ; Alimentation du port D
+   22 00000000         BUMPER_INIT
+   23 00000000         ; Alimentation du port E
    24 00000000 4E11            ldr              R6, = SYSCTL_PERIPH_GPIO 
                                                             ;; RCGC2
    25 00000002 6830            ldr              R0, [R6]
-   26 00000004 F040 0008       ORR              R0, R0, #0x08 ; Active le port 
-                                                            D dans le registre
+   26 00000004 F040 0010       ORR              R0, R0, #0x10 ; Active le port 
+                                                            E dans le registre
    27 00000008 6030            str              R0, [R6]
    28 0000000A         
    29 0000000A BF00            nop                          ; Attend les 3 tick
@@ -62,7 +62,7 @@ ARM Macro Assembler    Page 1
    31 0000000E BF00            nop
    32 00000010         
    33 00000010         ; Activation des fonctions numérique
-   34 00000010 4E0E            ldr              R6, = GPIO_PORTD_BASE+GPIO_O_DE
+   34 00000010 4E0E            ldr              R6, = GPIO_PORTE_BASE+GPIO_O_DE
 
 
 
@@ -71,55 +71,55 @@ ARM Macro Assembler    Page 2
 
 N
    35 00000012 6830            ldr              R0, [R6]
-   36 00000014 F040 0040       ORR              R0, R0, #BROCHE6
+   36 00000014 F040 0001       ORR              R0, R0, #BROCHE0
    37 00000018 6030            str              R0, [R6]
    38 0000001A         
-   39 0000001A 4E0C            ldr              R6, = GPIO_PORTD_BASE+GPIO_O_DE
+   39 0000001A 4E0C            ldr              R6, = GPIO_PORTE_BASE+GPIO_O_DE
 N
    40 0000001C 6830            ldr              R0, [R6]
-   41 0000001E F040 0080       ORR              R0, R0, #BROCHE7
+   41 0000001E F040 0002       ORR              R0, R0, #BROCHE1
    42 00000022 6030            str              R0, [R6]
    43 00000024         
    44 00000024         ; Pul_up 
-   45 00000024 4E0A            ldr              R6, = GPIO_PORTD_BASE+GPIO_I_PU
+   45 00000024 4E0A            ldr              R6, = GPIO_PORTE_BASE+GPIO_I_PU
 R
    46 00000026 6830            ldr              R0, [R6]
-   47 00000028 F040 0040       ORR              R0, R0, #BROCHE6
+   47 00000028 F040 0001       ORR              R0, R0, #BROCHE0
    48 0000002C 6030            str              R0, [R6]
    49 0000002E         
-   50 0000002E 4E08            ldr              R6, = GPIO_PORTD_BASE+GPIO_I_PU
+   50 0000002E 4E08            ldr              R6, = GPIO_PORTE_BASE+GPIO_I_PU
 R
    51 00000030 6830            ldr              R0, [R6]
-   52 00000032 F040 0080       ORR              R0, R0, #BROCHE7
+   52 00000032 F040 0002       ORR              R0, R0, #BROCHE1
    53 00000036 6030            str              R0, [R6]
    54 00000038         
    55 00000038 4770            BX               LR
    56 0000003A         
-   57 0000003A         SWITCH_1
-   58 0000003A 4806            ldr              r0, = GPIO_PORTD_BASE + (BROCHE
-6<<2)
+   57 0000003A         BUMPER_DROIT
+   58 0000003A 4806            ldr              r0, = GPIO_PORTE_BASE + (BROCHE
+0<<2)
    59 0000003C 6800            ldr              r0, [r0]
    60 0000003E 4770            BX               LR
    61 00000040         
-   62 00000040         SWITCH_2
-   63 00000040 4805            ldr              r0, = GPIO_PORTD_BASE + (BROCHE
-7<<2)
+   62 00000040         BUMPER_GAUCHE
+   63 00000040 4805            ldr              r0, = GPIO_PORTE_BASE + (BROCHE
+1<<2)
    64 00000042 6800            ldr              r0, [r0]
    65 00000044 4770            BX               LR
    66 00000046         
    67 00000046                 END
               00 00 400FE108 
-              4000751C 
-              40007510 
-              40007100 
-              40007200 
+              4002451C 
+              40024510 
+              40024004 
+              40024008 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=.\objects\switch_config.d -o.\objects\switch_config.o -I.\RTE\_Tar
+ork --depend=.\objects\bumper_config.d -o.\objects\bumper_config.o -I.\RTE\_Tar
 get_1 -IC:\Users\loicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Inclu
 de -IC:\Users\loicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\Device\ARM\ARMCM3\I
 nclude --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 528"
- --predefine="_RTE_ SETA 1" --predefine="ARMCM3 SETA 1" --list=.\listings\switc
-h_config.lst Programs\switch_config.s
+ --predefine="_RTE_ SETA 1" --predefine="ARMCM3 SETA 1" --list=.\listings\bumpe
+r_config.lst Programs\bumper_config.s
 
 
 
@@ -130,34 +130,34 @@ Relocatable symbols
 
 Symbol: .text
    Definitions
-      At line 15 in file Programs\switch_config.s
+      At line 15 in file Programs\bumper_config.s
    Uses
       None
 Comment: .text unused
-SWITCH_1 0000003A
+BUMPER_DROIT 0000003A
 
-Symbol: SWITCH_1
+Symbol: BUMPER_DROIT
    Definitions
-      At line 57 in file Programs\switch_config.s
+      At line 57 in file Programs\bumper_config.s
    Uses
-      At line 19 in file Programs\switch_config.s
-Comment: SWITCH_1 used once
-SWITCH_2 00000040
+      At line 19 in file Programs\bumper_config.s
+Comment: BUMPER_DROIT used once
+BUMPER_GAUCHE 00000040
 
-Symbol: SWITCH_2
+Symbol: BUMPER_GAUCHE
    Definitions
-      At line 62 in file Programs\switch_config.s
+      At line 62 in file Programs\bumper_config.s
    Uses
-      At line 20 in file Programs\switch_config.s
-Comment: SWITCH_2 used once
-SWITCH_INIT 00000000
+      At line 20 in file Programs\bumper_config.s
+Comment: BUMPER_GAUCHE used once
+BUMPER_INIT 00000000
 
-Symbol: SWITCH_INIT
+Symbol: BUMPER_INIT
    Definitions
-      At line 22 in file Programs\switch_config.s
+      At line 22 in file Programs\bumper_config.s
    Uses
-      At line 18 in file Programs\switch_config.s
-Comment: SWITCH_INIT used once
+      At line 18 in file Programs\bumper_config.s
+Comment: BUMPER_INIT used once
 4 symbols
 
 
@@ -165,64 +165,64 @@ Comment: SWITCH_INIT used once
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Absolute symbols
 
-BROCHE6 00000040
+BROCHE0 00000001
 
-Symbol: BROCHE6
+Symbol: BROCHE0
    Definitions
-      At line 11 in file Programs\switch_config.s
+      At line 11 in file Programs\bumper_config.s
    Uses
-      At line 36 in file Programs\switch_config.s
-      At line 47 in file Programs\switch_config.s
-      At line 58 in file Programs\switch_config.s
+      At line 36 in file Programs\bumper_config.s
+      At line 47 in file Programs\bumper_config.s
+      At line 58 in file Programs\bumper_config.s
 
-BROCHE7 00000080
+BROCHE1 00000002
 
-Symbol: BROCHE7
+Symbol: BROCHE1
    Definitions
-      At line 12 in file Programs\switch_config.s
+      At line 12 in file Programs\bumper_config.s
    Uses
-      At line 41 in file Programs\switch_config.s
-      At line 52 in file Programs\switch_config.s
-      At line 63 in file Programs\switch_config.s
+      At line 41 in file Programs\bumper_config.s
+      At line 52 in file Programs\bumper_config.s
+      At line 63 in file Programs\bumper_config.s
 
 GPIO_I_PUR 00000510
 
 Symbol: GPIO_I_PUR
    Definitions
-      At line 9 in file Programs\switch_config.s
+      At line 9 in file Programs\bumper_config.s
    Uses
-      At line 45 in file Programs\switch_config.s
-      At line 50 in file Programs\switch_config.s
+      At line 45 in file Programs\bumper_config.s
+      At line 50 in file Programs\bumper_config.s
 
 GPIO_O_DEN 0000051C
 
 Symbol: GPIO_O_DEN
    Definitions
-      At line 6 in file Programs\switch_config.s
+      At line 6 in file Programs\bumper_config.s
    Uses
-      At line 34 in file Programs\switch_config.s
-      At line 39 in file Programs\switch_config.s
+      At line 34 in file Programs\bumper_config.s
+      At line 39 in file Programs\bumper_config.s
 
-GPIO_PORTD_BASE 40007000
+GPIO_PORTE_BASE 40024000
 
-Symbol: GPIO_PORTD_BASE
+Symbol: GPIO_PORTE_BASE
    Definitions
-      At line 4 in file Programs\switch_config.s
+      At line 4 in file Programs\bumper_config.s
    Uses
-      At line 34 in file Programs\switch_config.s
-      At line 39 in file Programs\switch_config.s
-      At line 45 in file Programs\switch_config.s
-      At line 50 in file Programs\switch_config.s
-      At line 58 in file Programs\switch_config.s
-      At line 63 in file Programs\switch_config.s
+      At line 34 in file Programs\bumper_config.s
+      At line 39 in file Programs\bumper_config.s
+      At line 45 in file Programs\bumper_config.s
+      At line 50 in file Programs\bumper_config.s
+      At line 58 in file Programs\bumper_config.s
+      At line 63 in file Programs\bumper_config.s
 
 SYSCTL_PERIPH_GPIO 400FE108
 
 Symbol: SYSCTL_PERIPH_GPIO
    Definitions
-      At line 2 in file Programs\switch_config.s
+      At line 2 in file Programs\bumper_config.s
    Uses
-      At line 24 in file Programs\switch_config.s
+      At line 24 in file Programs\bumper_config.s
 Comment: SYSCTL_PERIPH_GPIO used once
 
 
