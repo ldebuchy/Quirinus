@@ -1,0 +1,15 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+                       
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\objects\discover_mode.d -o.\objects\discover_mode.o -I.\RTE\_Tar
+get_1 -IC:\Users\loicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Inclu
+de -IC:\Users\loicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\Device\ARM\ARMCM3\I
+nclude --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 528"
+ --predefine="_RTE_ SETA 1" --predefine="ARMCM3 SETA 1" --list=.\listings\disco
+ver_mode.lst Programs\discover_mode.s
+334 symbols in table

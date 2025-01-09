@@ -1,0 +1,15 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+                       
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\objects\guard_mode.d -o.\objects\guard_mode.o -I.\RTE\_Target_1 
+-IC:\Users\loicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC
+:\Users\loicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\Device\ARM\ARMCM3\Include
+ --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 528" --pre
+define="_RTE_ SETA 1" --predefine="ARMCM3 SETA 1" --list=.\listings\guard_mode.
+lst Programs\guard_mode.s
+334 symbols in table
