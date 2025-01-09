@@ -397,6 +397,11 @@
               <FileType>2</FileType>
               <FilePath>.\Programs\motor_config.s</FilePath>
             </File>
+            <File>
+              <FileName>switch_config.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Programs\switch_config.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -74,9 +74,8 @@ ARM Macro Assembler    Page 2
    33 00000000 4E1F            ldr              r6, = SYSCTL_PERIPH_GPIO 
                                                             ; RCGC2
    34 00000002 6830            ldr              r0, [R6]
-   35 00000004 F040 0020       ORR              r0, r0, #0x20 ; Correspond au p
-                                                            ort F dans le regis
-                                                            tre
+   35 00000004 F040 0020       ORR              r0, r0, #0x20 ; Active au port 
+                                                            F dans le registre
    36 00000008 6030            str              r0, [r6]
    37 0000000A         
    38 0000000A BF00            nop                          ; Attend les 3 tick
@@ -128,13 +127,13 @@ N
 2R
    71 00000044 6830            ldr              r0, [r6]
    72 00000046 F040 0020       ORR              r0, r0, #BROCHE5
+   73 0000004A 6030            str              r0, [r6]
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-   73 0000004A 6030            str              r0, [r6]
    74 0000004C         
    75 0000004C 4770            BX               LR
    76 0000004E         

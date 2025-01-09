@@ -20,6 +20,11 @@
 		IMPORT	LED_GAUCHE_OFF
 
 ;	Controle Switch
+		IMPORT	SWITCH_INIT
+		IMPORT	SWITCH_1
+
+;	Initialisation des variables et constante
+mode	EQU		0
 
 	  	ENTRY
 		EXPORT	__main
@@ -27,16 +32,23 @@ __main
 		
 		BL	MOTEUR_INIT
 		BL	LED_INIT
+		BL	SWITCH_INIT
 
-;loop	
-
+loop	
+		BL	SWITCH_1
+		CMP	r0, #0
+		BEQ mode_one
+		
+		BL	LED_DROITE_OFF
+		BL	LED_GAUCHE_ON
+		B	loop
+		
+mode_one
 		BL	LED_DROITE_ON
 		BL	LED_GAUCHE_OFF
-		
-		BL	LED_GAUCHE_ON
-		BL	LED_DROITE_OFF
-		
-		;b	loop
 
+		
+		B	loop
+		
 		nop		
 		END    

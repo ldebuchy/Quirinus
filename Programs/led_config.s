@@ -32,7 +32,7 @@ LED_INIT
 ;	Alimentation du port F
 		ldr r6, = SYSCTL_PERIPH_GPIO	; RCGC2
 		ldr	r0, [R6] 		
-		ORR	r0, r0, #0x20	; Correspond au port F dans le registre
+		ORR	r0, r0, #0x20	; Active au port F dans le registre
 		str r0, [r6]
 		
 		nop ; Attend les 3 ticks avant de pouvoir utiliser le port

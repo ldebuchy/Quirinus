@@ -39,54 +39,56 @@ ARM Macro Assembler    Page 1
    14 00000000                 ENTRY
    15 00000000         
    16 00000000                 EXPORT           SWITCH_INIT
-   17 00000000         
-   18 00000000         SWITCH_INIT
-   19 00000000         ; Alimentation du port D
-   20 00000000 4E08            ldr              r6, = SYSCTL_PERIPH_GPIO 
+   17 00000000                 EXPORT           SWITCH_1
+   18 00000000         
+   19 00000000         SWITCH_INIT
+   20 00000000         ; Alimentation du port D
+   21 00000000 4E0A            ldr              R6, = SYSCTL_PERIPH_GPIO 
                                                             ;; RCGC2
-   21 00000002 6830            ldr              r0, [R6]
-   22 00000004 F040 0008       ORR              r0, r0, #0x08 ; Active le port 
+   22 00000002 6830            ldr              R0, [R6]
+   23 00000004 F040 0008       ORR              R0, R0, #0x08 ; Active le port 
                                                             D dans le registre
-   23 00000008 6030            str              r0, [r6]
-   24 0000000A         
-   25 0000000A BF00            nop                          ; Attend les 3 tick
+   24 00000008 6030            str              R0, [R6]
+   25 0000000A         
+   26 0000000A BF00            nop                          ; Attend les 3 tick
                                                             s avant de pouvoir 
                                                             utiliser le port
-   26 0000000C BF00            nop
-   27 0000000E BF00            nop
-   28 00000010         
-   29 00000010         ; Config
-   30 00000010 4F05            ldr              r7, = GPIO_PORTD_BASE+GPIO_I_PU
-R 
-                                                            ;; Pul_up 
-   31 00000012 F04F 0040       ldr              r0, = BROCHE6
-   32 00000016 6038            str              r0, [r7]
-   33 00000018         
-   34 00000018 4F04            ldr              r7, = GPIO_PORTD_BASE+GPIO_O_DE
+   27 0000000C BF00            nop
+   28 0000000E BF00            nop
+   29 00000010         
+   30 00000010         ; Activation des fonctions numérique
+   31 00000010 4E07            ldr              R6, = GPIO_PORTD_BASE+GPIO_O_DE
+N
+   32 00000012 6830            ldr              R0, [R6]
+   33 00000014 F040 0040       ORR              R0, R0, #BROCHE6
+   34 00000018 6030            str              R0, [R6]
+   35 0000001A         
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-N 
-                                                            ;; Enable Digital F
-                                                            unction 
-   35 0000001A F04F 0040       ldr              r0, = BROCHE6
-   36 0000001E 6038            str              r0, [r7]
-   37 00000020         
-   38 00000020 4F03            ldr              r7, = GPIO_PORTD_BASE + (BROCHE
+   36 0000001A 4E06            ldr              R6, = GPIO_PORTD_BASE+GPIO_I_PU
+R 
+                                                            ;; Pul_up 
+   37 0000001C 6830            ldr              R0, [R6]
+   38 0000001E F040 0040       ORR              R0, R0, #BROCHE6
+   39 00000022 6030            str              R0, [R6]
+   40 00000024         
+   41 00000024 4770            BX               LR
+   42 00000026         
+   43 00000026         SWITCH_1
+   44 00000026 4804            ldr              r0, = GPIO_PORTD_BASE + (BROCHE
 6<<2) 
-                                                            ;; @data Register =
-                                                             @base + (mask<<2) 
-                                                            ==> Switcher
-   39 00000022         
-   40 00000022 4770            BX               LR
-   41 00000024         
-   42 00000024                 END
+                                                            ;; Pul_up 
+   45 00000028 6800            ldr              r0, [r0]
+   46 0000002A 4770            BX               LR
+   47 0000002C         
+   48 0000002C                 END
               400FE108 
-              40007510 
               4000751C 
+              40007510 
               40007100 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\objects\switch_config.d -o.\objects\switch_config.o -I.\RTE\_Tar
@@ -109,15 +111,23 @@ Symbol: .text
    Uses
       None
 Comment: .text unused
+SWITCH_1 00000026
+
+Symbol: SWITCH_1
+   Definitions
+      At line 43 in file Programs\switch_config.s
+   Uses
+      At line 17 in file Programs\switch_config.s
+Comment: SWITCH_1 used once
 SWITCH_INIT 00000000
 
 Symbol: SWITCH_INIT
    Definitions
-      At line 18 in file Programs\switch_config.s
+      At line 19 in file Programs\switch_config.s
    Uses
       At line 16 in file Programs\switch_config.s
 Comment: SWITCH_INIT used once
-2 symbols
+3 symbols
 
 
 
@@ -130,9 +140,9 @@ Symbol: BROCHE6
    Definitions
       At line 11 in file Programs\switch_config.s
    Uses
-      At line 31 in file Programs\switch_config.s
-      At line 35 in file Programs\switch_config.s
+      At line 33 in file Programs\switch_config.s
       At line 38 in file Programs\switch_config.s
+      At line 44 in file Programs\switch_config.s
 
 GPIO_I_PUR 00000510
 
@@ -140,7 +150,7 @@ Symbol: GPIO_I_PUR
    Definitions
       At line 9 in file Programs\switch_config.s
    Uses
-      At line 30 in file Programs\switch_config.s
+      At line 36 in file Programs\switch_config.s
 Comment: GPIO_I_PUR used once
 GPIO_O_DEN 0000051C
 
@@ -148,7 +158,7 @@ Symbol: GPIO_O_DEN
    Definitions
       At line 6 in file Programs\switch_config.s
    Uses
-      At line 34 in file Programs\switch_config.s
+      At line 31 in file Programs\switch_config.s
 Comment: GPIO_O_DEN used once
 GPIO_PORTD_BASE 40007000
 
@@ -156,9 +166,9 @@ Symbol: GPIO_PORTD_BASE
    Definitions
       At line 4 in file Programs\switch_config.s
    Uses
-      At line 30 in file Programs\switch_config.s
-      At line 34 in file Programs\switch_config.s
-      At line 38 in file Programs\switch_config.s
+      At line 31 in file Programs\switch_config.s
+      At line 36 in file Programs\switch_config.s
+      At line 44 in file Programs\switch_config.s
 
 SYSCTL_PERIPH_GPIO 400FE108
 
@@ -166,7 +176,7 @@ Symbol: SYSCTL_PERIPH_GPIO
    Definitions
       At line 2 in file Programs\switch_config.s
    Uses
-      At line 20 in file Programs\switch_config.s
+      At line 21 in file Programs\switch_config.s
 Comment: SYSCTL_PERIPH_GPIO used once
 5 symbols
-343 symbols in table
+344 symbols in table

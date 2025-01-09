@@ -40,35 +40,50 @@ ARM Macro Assembler    Page 1
    20 00000000                 IMPORT           LED_GAUCHE_OFF
    21 00000000         
    22 00000000         ; Controle Switch
-   23 00000000         
-   24 00000000                 ENTRY
-   25 00000000                 EXPORT           __main
-   26 00000000         __main
-   27 00000000         
-   28 00000000 F7FF FFFE       BL               MOTEUR_INIT
-   29 00000004 F7FF FFFE       BL               LED_INIT
-   30 00000008         
-   31 00000008         ;loop 
-   32 00000008         
-   33 00000008 F7FF FFFE       BL               LED_DROITE_ON
-   34 0000000C F7FF FFFE       BL               LED_GAUCHE_ON
-   35 00000010 F7FF FFFE       BL               LED_DROITE_OFF
-   36 00000014         
-   37 00000014         ;b loop
-   38 00000014         
-   39 00000014 BF00            nop
-   40 00000016                 END
-Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=.\objects\main.d -o.\objects\main.o -I.\RTE\_Target_1 -IC:\Users\l
-oicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC:\Users\loic
-d\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\Device\ARM\ARMCM3\Include --predefine
-="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 528" --predefine="_RTE
+   23 00000000                 IMPORT           SWITCH_INIT
+   24 00000000                 IMPORT           SWITCH_1
+   25 00000000         
+   26 00000000         ; Initialisation des variables et constante
+   27 00000000 00000000 
+                       mode    EQU              0
+   28 00000000         
+   29 00000000                 ENTRY
+   30 00000000                 EXPORT           __main
+   31 00000000         __main
+   32 00000000         
+   33 00000000 F7FF FFFE       BL               MOTEUR_INIT
+   34 00000004 F7FF FFFE       BL               LED_INIT
+   35 00000008 F7FF FFFE       BL               SWITCH_INIT
+   36 0000000C         
+   37 0000000C         loop
+   38 0000000C F7FF FFFE       BL               SWITCH_1
+   39 00000010 2800            CMP              r0, #0
+   40 00000012 D004            BEQ              mode_one
+   41 00000014         
+   42 00000014 F7FF FFFE       BL               LED_DROITE_OFF
+   43 00000018 F7FF FFFE       BL               LED_GAUCHE_ON
+   44 0000001C E7F6            B                loop
 
 
 
 ARM Macro Assembler    Page 2 
 
 
+   45 0000001E         
+   46 0000001E         mode_one
+   47 0000001E F7FF FFFE       BL               LED_DROITE_ON
+   48 00000022 F7FF FFFE       BL               LED_GAUCHE_OFF
+   49 00000026         
+   50 00000026         
+   51 00000026 E7F1            B                loop
+   52 00000028         
+   53 00000028 BF00            nop
+   54 0000002A                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\objects\main.d -o.\objects\main.o -I.\RTE\_Target_1 -IC:\Users\l
+oicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC:\Users\loic
+d\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\Device\ARM\ARMCM3\Include --predefine
+="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 528" --predefine="_RTE
 _ SETA 1" --predefine="ARMCM3 SETA 1" --list=.\listings\main.lst Programs\main.
 s
 
@@ -89,11 +104,43 @@ __main 00000000
 
 Symbol: __main
    Definitions
-      At line 26 in file Programs\main.s
+      At line 31 in file Programs\main.s
    Uses
-      At line 25 in file Programs\main.s
+      At line 30 in file Programs\main.s
 Comment: __main used once
-2 symbols
+loop 0000000C
+
+Symbol: loop
+   Definitions
+      At line 37 in file Programs\main.s
+   Uses
+      At line 44 in file Programs\main.s
+      At line 51 in file Programs\main.s
+
+mode_one 0000001E
+
+Symbol: mode_one
+   Definitions
+      At line 46 in file Programs\main.s
+   Uses
+      At line 40 in file Programs\main.s
+Comment: mode_one used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+mode 00000000
+
+Symbol: mode
+   Definitions
+      At line 27 in file Programs\main.s
+   Uses
+      None
+Comment: mode unused
+1 symbol
 
 
 
@@ -106,7 +153,7 @@ Symbol: LED_DROITE_OFF
    Definitions
       At line 18 in file Programs\main.s
    Uses
-      At line 35 in file Programs\main.s
+      At line 42 in file Programs\main.s
 Comment: LED_DROITE_OFF used once
 LED_DROITE_ON 00000000
 
@@ -114,7 +161,7 @@ Symbol: LED_DROITE_ON
    Definitions
       At line 17 in file Programs\main.s
    Uses
-      At line 33 in file Programs\main.s
+      At line 47 in file Programs\main.s
 Comment: LED_DROITE_ON used once
 LED_GAUCHE_OFF 00000000
 
@@ -122,15 +169,15 @@ Symbol: LED_GAUCHE_OFF
    Definitions
       At line 20 in file Programs\main.s
    Uses
-      None
-Comment: LED_GAUCHE_OFF unused
+      At line 48 in file Programs\main.s
+Comment: LED_GAUCHE_OFF used once
 LED_GAUCHE_ON 00000000
 
 Symbol: LED_GAUCHE_ON
    Definitions
       At line 19 in file Programs\main.s
    Uses
-      At line 34 in file Programs\main.s
+      At line 43 in file Programs\main.s
 Comment: LED_GAUCHE_ON used once
 LED_INIT 00000000
 
@@ -138,7 +185,7 @@ Symbol: LED_INIT
    Definitions
       At line 16 in file Programs\main.s
    Uses
-      At line 29 in file Programs\main.s
+      At line 34 in file Programs\main.s
 Comment: LED_INIT used once
 MOTEUR_DROIT_ARRIERE 00000000
 
@@ -216,7 +263,29 @@ Symbol: MOTEUR_INIT
    Definitions
       At line 5 in file Programs\main.s
    Uses
-      At line 28 in file Programs\main.s
+      At line 33 in file Programs\main.s
 Comment: MOTEUR_INIT used once
-14 symbols
-350 symbols in table
+SWITCH_1 00000000
+
+Symbol: SWITCH_1
+   Definitions
+      At line 24 in file Programs\main.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+External symbols
+
+      At line 38 in file Programs\main.s
+Comment: SWITCH_1 used once
+SWITCH_INIT 00000000
+
+Symbol: SWITCH_INIT
+   Definitions
+      At line 23 in file Programs\main.s
+   Uses
+      At line 35 in file Programs\main.s
+Comment: SWITCH_INIT used once
+16 symbols
+355 symbols in table

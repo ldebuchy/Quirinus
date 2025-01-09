@@ -13,30 +13,36 @@ BROCHE6				EQU 	0x40		; bouton poussoir 1
 		AREA    |.text|, CODE, READONLY
 		ENTRY
 		
-		EXPORT SWITCH_INIT
+		EXPORT 	SWITCH_INIT
+		EXPORT	SWITCH_1
 
 SWITCH_INIT
 ; Alimentation du port D
-	ldr r6, = SYSCTL_PERIPH_GPIO  			;; RCGC2
-	ldr	r0, [R6] 		
-	ORR	r0, r0, #0x08  ; Active le port D dans le registre
-	str r0, [r6]
+	ldr R6, = SYSCTL_PERIPH_GPIO  			;; RCGC2
+	ldr	R0, [R6] 		
+	ORR	R0, R0, #0x08  ; Active le port D dans le registre
+	str R0, [R6]
 	
 	nop ; Attend les 3 ticks avant de pouvoir utiliser le port
 	nop	   
 	nop
 
-; Config
-	ldr r7, = GPIO_PORTD_BASE+GPIO_I_PUR	;; Pul_up 
-	ldr r0, = BROCHE6		
-	str r0, [r7]
-	
-	ldr r7, = GPIO_PORTD_BASE+GPIO_O_DEN	;; Enable Digital Function 
-	ldr r0, = BROCHE6	
-	str r0, [r7]     
-	
-	ldr r7, = GPIO_PORTD_BASE + (BROCHE6<<2)  ;; @data Register = @base + (mask<<2) ==> Switcher
+;	Activation des fonctions numérique
+	ldr R6, = GPIO_PORTD_BASE+GPIO_O_DEN
+	ldr	R0, [R6] 		
+	ORR	R0, R0, #BROCHE6
+	str R0, [R6]
+
+	ldr R6, = GPIO_PORTD_BASE+GPIO_I_PUR 			;; Pul_up 
+	ldr	R0, [R6] 		
+	ORR	R0, R0, #BROCHE6
+	str R0, [R6]
 	
 	BX LR
+	
+SWITCH_1
+	ldr r0, = GPIO_PORTD_BASE + (BROCHE6<<2)			;; Pul_up 
+	ldr r0, [r0]
+	BX	LR
 	
 	END
