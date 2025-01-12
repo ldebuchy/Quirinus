@@ -83,10 +83,10 @@ mode_reperage_phase_1 ; mode repérage
 		ldr r1, =0x100000
 		BL	wait
 		
-		ldr r2, =0x3	;	Définition du nombre de cligottement
+		ldr r2, =0x1	;	Définition du nombre de cligottement
 		BL	Clignottement
 		
-		;BL	animation_1
+		BL	animation_1
 
 		ldr r2, =0x2	;	Définition du nombre de cligottement
 		BL	Clignottement
@@ -128,6 +128,9 @@ mode_reperage_phase_2
 		LDR R7, =DWT_CYCCNT        ; Adresse du registre DWT_CYCCNT
 		LDR R8, [R7]               ; Charger la valeur initiale dans R8 (start)
 		
+		ldr r2, =0x1	;	Définition du nombre de cligottement
+		BL	Clignottement
+		
 		BL	MOTEUR_DROIT_ON
 		BL	MOTEUR_GAUCHE_ON
 		BL	MOTEUR_DROIT_ARRIERE
@@ -163,7 +166,7 @@ mode_reperage_phase_3
 		BL	MOTEUR_GAUCHE_OFF
 		
 		; Lire le compteur après l'opération
-		LDR R9, [R7]               ; Charger la valeur finale dans R2 (end)
+		LDR R9, [R7]               ; Charger la valeur finale dans R9 (end)
 
 		; Calculer le nombre de cycles écoulés
 		SUB R3, R9, R8             ; R3 = end - start
@@ -172,6 +175,9 @@ mode_reperage_phase_3
 		
 		ldr r0,	=LONG_ADR	;	Enregistrement de la longeur
 		str	r3,	[r0]
+		
+		ldr r2, =0x1	;	Définition du nombre de cligottement
+		BL	Clignottement
 		
 		BL	MOTEUR_DROIT_ON
 		BL	MOTEUR_GAUCHE_ON
@@ -220,12 +226,9 @@ mode_surveillance
 		ldr r2, =0x3	;	Définition du nombre de cligottement
 		BL	Clignottement
 		
-		ldr	r8,	=LONG_ADR
-		sub	r8,	#0xA00000
-		ldr	r7, [r8]
-		
-		ldr r2, =0x2	;	Définition du nombre de cligottement
-		BL	Clignottement
+		ldr	r0,	=LONG_ADR
+		ldr	r3, [r0]
+		sub	r3,	#0xB00000
 		
 		BL	MOTEUR_DROIT_ON
 		BL	MOTEUR_GAUCHE_ON
@@ -237,6 +240,7 @@ mode_surveillance
 		BL	MOTEUR_DROIT_AVANT
 		BL	MOTEUR_GAUCHE_AVANT
 		
+		LSR	r4,	r3,	#4
 mode_surveillance_loop_1
 		BL	BUMPER_DROIT
 		CMP	r0,	#0x0
@@ -255,7 +259,8 @@ mode_surveillance_loop_1
 		BL	wait
 		BL	MOTEUR_DROIT_AVANT
 		BL	MOTEUR_GAUCHE_AVANT
-		ldr	r4, [r3]
+		
+		LSR	r4,	r3,	#3
 		BL	mode_surveillance_loop_2
 
 mode_surveillance_loop_2
@@ -276,7 +281,8 @@ mode_surveillance_loop_2
 		BL	wait
 		BL	MOTEUR_DROIT_AVANT
 		BL	MOTEUR_GAUCHE_AVANT
-		ldr	r4, [r3]
+		
+		LSR	r4,	r3,	#3
 		BL	mode_surveillance_loop_1	
 		
 wait	subs r1, #1
