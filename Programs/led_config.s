@@ -100,6 +100,6 @@ LED_GAUCHE_OFF
 		ldr r0, [r6]
 		bic r0, r0, #BROCHE5
 		str r0, [r6]
-		BX LR
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        		BX LR
 		
 		END
