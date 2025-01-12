@@ -228,7 +228,7 @@ mode_surveillance
 		
 		ldr	r0,	=LONG_ADR
 		ldr	r3, [r0]
-		sub	r3,	#0xB00000
+		sub	r3,	#0xF00000
 		
 		BL	MOTEUR_DROIT_ON
 		BL	MOTEUR_GAUCHE_ON
