@@ -30,12 +30,13 @@
 		IMPORT	BUMPER_GAUCHE
 
 ;	Initialisation des variables et constante
-LONG_ADR			EQU	0x20019000
+LONG_ADR			EQU	0x20000001
 ROT_TIME_45			EQU	0x17C000
 ROT_TIME_90			EQU	0x2F8000
 ROT_TIME_180		EQU	0x5F0000
 ROT_TIME_360		EQU	0xBC0000
-	
+
+DWT_CYCCNT			EQU	0xE0001004
 	  	ENTRY
 		EXPORT	__main
 __main	
@@ -44,6 +45,17 @@ __main
 		BL	LED_INIT
 		BL	SWITCH_INIT
 		BL	BUMPER_INIT
+		
+	;	Initalisation du compteur de cycle de l'horloge
+	LDR R0, =0xE000EDFC        ; Adresse du registre DEMCR (Debug Exception and Monitor Control)
+    LDR R1, [R0]               ; Charger sa valeur actuelle
+    ORR R1, R1, #(1 << 24)     ; Activer TRCENA (bit 24)
+    STR R1, [R0]               ; Écrire la nouvelle valeur dans DEMCR
+
+    LDR R0, =0xE0001000        ; Adresse de DWT_CYCCNT
+    LDR R1, [R0]               ; Charger sa valeur actuelle
+    ORR R1, R1, #1             ; Activer le compteur de cycles (bit 0)
+    STR R1, [R0]               ; Écrire la nouvelle valeur
 
 mode_passif_loop	; boucle principale ne fait rien tant qu'aucun bouton est pressé
 		BL	LED_DROITE_OFF
@@ -74,7 +86,7 @@ mode_reperage_phase_1 ; mode repérage
 		ldr r2, =0x3	;	Définition du nombre de cligottement
 		BL	Clignottement
 		
-		BL	animation_1
+		;BL	animation_1
 
 		ldr r2, =0x2	;	Définition du nombre de cligottement
 		BL	Clignottement
@@ -106,11 +118,18 @@ mode_reperage_phase_2
 		BL	MOTEUR_DROIT_ARRIERE
 		BL	MOTEUR_GAUCHE_ARRIERE
 		
-		ldr r1, =0x4F0000
+		ldr r1, =0x4A0000
 		BL	wait
 		
-		mov R8, #0
+		BL	MOTEUR_DROIT_OFF
+		BL	MOTEUR_GAUCHE_OFF
+
+		; Lire le compteur avant l'opération
+		LDR R7, =DWT_CYCCNT        ; Adresse du registre DWT_CYCCNT
+		LDR R8, [R7]               ; Charger la valeur initiale dans R8 (start)
 		
+		BL	MOTEUR_DROIT_ON
+		BL	MOTEUR_GAUCHE_ON
 		BL	MOTEUR_DROIT_ARRIERE
 		BL	MOTEUR_GAUCHE_AVANT
 		
@@ -121,7 +140,6 @@ mode_reperage_phase_2
 		BL	MOTEUR_GAUCHE_AVANT
 		
 mode_reperage_phase_2_loop	; avance jusqu'a ce qu'un bumper soit touché
-		ADD R8, R8, #1
 
 		BL	BUMPER_DROIT
 		CMP	r0,	#0x0
@@ -138,12 +156,25 @@ mode_reperage_phase_3
 		BL	MOTEUR_DROIT_ARRIERE
 		BL	MOTEUR_GAUCHE_ARRIERE
 		
-		ldr r1, = 0x4F0000
+		ldr r1, = 0x4A0000
 		BL	wait
 		
-		ldr r8,	= LONG_ADR	;	Enregistrement de la longeur
-		str	r8,	[r8]
+		BL	MOTEUR_DROIT_OFF
+		BL	MOTEUR_GAUCHE_OFF
 		
+		; Lire le compteur après l'opération
+		LDR R9, [R7]               ; Charger la valeur finale dans R2 (end)
+
+		; Calculer le nombre de cycles écoulés
+		SUB R3, R9, R8             ; R3 = end - start
+	
+		LSR	r3,	r3,	#2
+		
+		ldr r0,	=LONG_ADR	;	Enregistrement de la longeur
+		str	r3,	[r0]
+		
+		BL	MOTEUR_DROIT_ON
+		BL	MOTEUR_GAUCHE_ON
 		BL	MOTEUR_DROIT_AVANT
 		BL	MOTEUR_GAUCHE_ARRIERE
 		
@@ -153,10 +184,11 @@ mode_reperage_phase_3
 		BL	MOTEUR_DROIT_AVANT
 		BL	MOTEUR_GAUCHE_AVANT
 		
-		;LSR	r3,	r3,	#1	;	on divise la longeur enregistré pour revenir au millieux lors de la 3ème phase
-		
+		ldr	r0,	=LONG_ADR
+		ldr	r3,	[r0]
+		LSR	r3,	r3,	#1	;	on divise la longeur enregistré pour revenir au millieux lors de la 3ème phase
 mode_reperage_phase_3_loop	; avance jusqu'a ce qu'un bumper soit touché
-		subs	r8,	r8, #1
+		subs	r3,	r3, #1
 		bne	mode_reperage_phase_3_loop
 		
 		BL	MOTEUR_DROIT_ARRIERE

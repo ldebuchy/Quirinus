@@ -1,0 +1,112 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             |.text|, CODE, READONLY
+    2 00000000                 ENTRY
+    3 00000000         
+    4 00000000                 EXPORT           CYCLE_COUNTER_INIT
+    5 00000000                 EXPORT           CYCLE_COUNTER_READ
+    6 00000000         
+    7 00000000 E0001004 
+                       DWT_CYCCNT
+                               EQU              0xE0001004
+    8 00000000 E000EDFC 
+                       DEMCR   EQU              0xE000EDFC
+    9 00000000         
+   10 00000000         CYCLE_COUNTER_INIT
+   11 00000000 4806            LDR              R0, =DEMCR  ; Adresse du regist
+                                                            re DEMCR (Debug Exc
+                                                            eption and Monitor 
+                                                            Control)
+   12 00000002 6801            LDR              R1, [R0]
+   13 00000004 F041 7180       ORR              R1, R1, #(1 << 24) ; Activer TR
+                                                            CENA (bit 24)
+   14 00000008 6001            STR              R1, [R0]
+   15 0000000A         
+   16 0000000A 4805            LDR              R0, =DWT_CYCCNT ; Adresse de DW
+                                                            T_CYCCNT
+   17 0000000C 6801            LDR              R1, [R0]
+   18 0000000E F041 0101       ORR              R1, R1, #1  ; Activer le compte
+                                                            ur de cycles (bit 0
+                                                            )
+   19 00000012 6001            STR              R1, [R0]
+   20 00000014         
+   21 00000014 4770            BX               LR
+   22 00000016         
+   23 00000016         CYCLE_COUNTER_READ
+   24 00000016 4802            ldr              R0, = DWT_CYCCNT ; Adresse du r
+                                                            egistre 
+   25 00000018 6800            ldr              R0, [R0]    ; Charger la valeur
+                                                             actuelle de l'horl
+                                                            oge
+   26 0000001A 4770            BX               LR
+   27 0000001C         
+   28 0000001C                 END
+              E000EDFC 
+              E0001004 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\objects\cycle_counter_config.d -o.\objects\cycle_counter_config.
+o -I.\RTE\_Target_1 -IC:\Users\loicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CM
+SIS\Core\Include -IC:\Users\loicd\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\Devic
+e\ARM\ARMCM3\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VER
+SION SETA 528" --predefine="_RTE_ SETA 1" --predefine="ARMCM3 SETA 1" --list=.\
+listings\cycle_counter_config.lst Programs\cycle_counter_config.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 1 in file Programs\cycle_counter_config.s
+   Uses
+      None
+Comment: .text unused
+CYCLE_COUNTER_INIT 00000000
+
+Symbol: CYCLE_COUNTER_INIT
+   Definitions
+      At line 10 in file Programs\cycle_counter_config.s
+   Uses
+      At line 4 in file Programs\cycle_counter_config.s
+Comment: CYCLE_COUNTER_INIT used once
+CYCLE_COUNTER_READ 00000016
+
+Symbol: CYCLE_COUNTER_READ
+   Definitions
+      At line 23 in file Programs\cycle_counter_config.s
+   Uses
+      At line 5 in file Programs\cycle_counter_config.s
+Comment: CYCLE_COUNTER_READ used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+DEMCR E000EDFC
+
+Symbol: DEMCR
+   Definitions
+      At line 8 in file Programs\cycle_counter_config.s
+   Uses
+      At line 11 in file Programs\cycle_counter_config.s
+Comment: DEMCR used once
+DWT_CYCCNT E0001004
+
+Symbol: DWT_CYCCNT
+   Definitions
+      At line 7 in file Programs\cycle_counter_config.s
+   Uses
+      At line 16 in file Programs\cycle_counter_config.s
+      At line 24 in file Programs\cycle_counter_config.s
+
+2 symbols
+341 symbols in table
