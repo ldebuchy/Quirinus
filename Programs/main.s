@@ -223,7 +223,12 @@ mode_surveillance
 		BL	wait_switch_2_free	;	Attend que l'utilisateur est éloigné son doigt
 		ldr r1, =0x100000
 		BL	wait
-		ldr r2, =0x3	;	Définition du nombre de cligottement
+		ldr r2, =0x2	;	Définition du nombre de cligottement
+		BL	Clignottement
+		
+		BL	animation_2
+		
+		ldr r2, =0x2	;	Définition du nombre de cligottement
 		BL	Clignottement
 		
 		ldr	r0,	=LONG_ADR
@@ -340,7 +345,7 @@ interruption_surveillance
 		BL	MOTEUR_DROIT_ARRIERE
 		BL	MOTEUR_GAUCHE_ARRIERE
 		
-		ldr r1, =0x0A0000
+		ldr r1, =0x090000
 		BL	wait
 		
 		BL	MOTEUR_DROIT_AVANT
@@ -352,7 +357,7 @@ interruption_surveillance
 		BL	MOTEUR_DROIT_ARRIERE
 		BL	MOTEUR_GAUCHE_ARRIERE
 		
-		ldr r1, =0x0A0000
+		ldr r1, =0x090000
 		BL	wait
 		
 		BL	MOTEUR_DROIT_AVANT
@@ -361,14 +366,23 @@ interruption_surveillance
 		ldr r1, =0x0A0000
 		BL	wait
 		
-				BL	MOTEUR_DROIT_ARRIERE
+		BL	MOTEUR_DROIT_ARRIERE
 		BL	MOTEUR_GAUCHE_ARRIERE
 		
+		ldr r1, =0x090000
+		BL	wait
+				
+		BL	MOTEUR_DROIT_AVANT
+		BL	MOTEUR_GAUCHE_AVANT
+		
 		ldr r1, =0x0A0000
 		BL	wait
 		
-		BL	MOTEUR_DROIT_AVANT
-		BL	MOTEUR_GAUCHE_AVANT
+		BL	MOTEUR_DROIT_OFF
+		BL	MOTEUR_GAUCHE_OFF
+		
+		ldr r2, =0x10	;	Définition du nombre de cligottement
+		BL	Clignottement
 		
 		B	mode_passif_loop
 
@@ -385,7 +399,7 @@ animation_1
 		BL	MOTEUR_DROIT_OFF
 		BL	MOTEUR_GAUCHE_OFF
 		
-		ldr r1, =	0x200000
+		ldr r1, =	0x1A0000
 		BL	wait
 		
 		BL	MOTEUR_DROIT_ON
@@ -399,7 +413,7 @@ animation_1
 		BL	MOTEUR_DROIT_OFF
 		BL	MOTEUR_GAUCHE_OFF
 		
-		ldr r1, =	0x200000
+		ldr r1, =	0x2A0000
 		BL	wait
 		
 		BL	MOTEUR_DROIT_ON
@@ -415,7 +429,40 @@ animation_1
 		ldr r1, =	0x500000
 		BL	wait
 		POP		{PC}
+		
+animation_2
+		PUSH	{LR}
+		BL	MOTEUR_DROIT_ON
+		BL	MOTEUR_GAUCHE_ON
+		
+		BL	MOTEUR_DROIT_AVANT
+		BL	MOTEUR_GAUCHE_AVANT
+		
+		ldr r1, =0x0A0000
+		BL	wait
 
+		BL	MOTEUR_DROIT_ARRIERE
+		BL	MOTEUR_GAUCHE_ARRIERE
+		
+		ldr r1, =0x0A0000
+		BL	wait
+		
+		BL	MOTEUR_DROIT_AVANT
+		BL	MOTEUR_GAUCHE_AVANT
+		
+		ldr r1, =0x0A0000
+		BL	wait
+		
+		BL	MOTEUR_DROIT_ARRIERE
+		BL	MOTEUR_GAUCHE_ARRIERE
+		
+		ldr r1, =0x0A0000
+		BL	wait
+		
+		BL	MOTEUR_DROIT_OFF
+		BL	MOTEUR_GAUCHE_OFF
+		
+		POP		{PC}
 
 		nop		
 		END    

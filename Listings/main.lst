@@ -85,7 +85,7 @@ ARM Macro Assembler    Page 2
    47 0000000C F7FF FFFE       BL               BUMPER_INIT
    48 00000010         
    49 00000010         ; Initalisation du compteur de cycle de l'horloge
-   50 00000010 48DE            LDR              R0, =0xE000EDFC ; Adresse du re
+   50 00000010 48FC            LDR              R0, =0xE000EDFC ; Adresse du re
                                                             gistre DEMCR (Debug
                                                              Exception and Moni
                                                             tor Control)
@@ -97,7 +97,7 @@ ARM Macro Assembler    Page 2
                                                             e valeur dans DEMCR
                                                             
    54 0000001A         
-   55 0000001A 48DD            LDR              R0, =0xE0001000 ; Adresse de DW
+   55 0000001A 48FB            LDR              R0, =0xE0001000 ; Adresse de DW
                                                             T_CYCCNT
    56 0000001C 6801            LDR              R1, [R0]    ; Charger sa valeur
                                                              actuelle
@@ -139,29 +139,29 @@ ARM Macro Assembler    Page 3
    78 00000054 F7FF FFFE       BL               LED_DROITE_ON
    79 00000058         
    80 00000058         ; Attend que l'utilisateur est éloigné son doigt
-   81 00000058 F000 F8F9       BL               wait_switch_1_free
+   81 00000058 F000 F8FF       BL               wait_switch_1_free
    82 0000005C         
    83 0000005C F44F 1180       ldr              r1, =0x100000
-   84 00000060 F000 F8F2       BL               wait
+   84 00000060 F000 F8F8       BL               wait
    85 00000064         
    86 00000064 F04F 0201       ldr              r2, =0x1    ; Définition du nom
                                                             bre de cligottement
                                                             
-   87 00000068 F000 F8FD       BL               Clignottement
+   87 00000068 F000 F903       BL               Clignottement
    88 0000006C         
-   89 0000006C F000 F94F       BL               animation_1
+   89 0000006C F000 F961       BL               animation_1
    90 00000070         
    91 00000070 F04F 0202       ldr              r2, =0x2    ; Définition du nom
                                                             bre de cligottement
                                                             
-   92 00000074 F000 F8F7       BL               Clignottement
+   92 00000074 F000 F8FD       BL               Clignottement
    93 00000078         
    94 00000078 F7FF FFFE       BL               MOTEUR_DROIT_ON
    95 0000007C F7FF FFFE       BL               MOTEUR_GAUCHE_ON
    96 00000080 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
    97 00000084 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
    98 00000088 F44F 113E       ldr              r1, =ROT_TIME_90
-   99 0000008C F000 F8DC       BL               wait
+   99 0000008C F000 F8E2       BL               wait
   100 00000090         
   101 00000090         
   102 00000090 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
@@ -190,7 +190,7 @@ ARM Macro Assembler    Page 3
   119 000000AE F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
   120 000000B2         
   121 000000B2 F44F 0194       ldr              r1, =0x4A0000
-  122 000000B6 F000 F8C7       BL               wait
+  122 000000B6 F000 F8CD       BL               wait
   123 000000BA         
   124 000000BA F7FF FFFE       BL               MOTEUR_DROIT_OFF
 
@@ -202,7 +202,7 @@ ARM Macro Assembler    Page 4
   125 000000BE F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
   126 000000C2         
   127 000000C2         ; Lire le compteur avant l'opération
-  128 000000C2 4FB4            LDR              R7, =DWT_CYCCNT ; Adresse du re
+  128 000000C2 4FD2            LDR              R7, =DWT_CYCCNT ; Adresse du re
                                                             gistre DWT_CYCCNT
   129 000000C4 F8D7 8000       LDR              R8, [R7]    ; Charger la valeur
                                                              initiale dans R8 (
@@ -211,7 +211,7 @@ ARM Macro Assembler    Page 4
   131 000000C8 F04F 0201       ldr              r2, =0x1    ; Définition du nom
                                                             bre de cligottement
                                                             
-  132 000000CC F000 F8CB       BL               Clignottement
+  132 000000CC F000 F8D1       BL               Clignottement
   133 000000D0         
   134 000000D0 F7FF FFFE       BL               MOTEUR_DROIT_ON
   135 000000D4 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
@@ -219,7 +219,7 @@ ARM Macro Assembler    Page 4
   137 000000DC F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
   138 000000E0         
   139 000000E0 F44F 01BE       ldr              r1, =ROT_TIME_180
-  140 000000E4 F000 F8B0       BL               wait
+  140 000000E4 F000 F8B6       BL               wait
   141 000000E8         
   142 000000E8 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
   143 000000EC F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
@@ -248,7 +248,7 @@ ARM Macro Assembler    Page 4
   160 00000106 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
   161 0000010A         
   162 0000010A F44F 0194       ldr              r1, = 0x4A0000
-  163 0000010E F000 F89B       BL               wait
+  163 0000010E F000 F8A1       BL               wait
   164 00000112         
   165 00000112 F7FF FFFE       BL               MOTEUR_DROIT_OFF
   166 00000116 F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
@@ -269,14 +269,14 @@ ARM Macro Assembler    Page 5
   173 00000122         
   174 00000122 EA4F 0393       LSR              r3, r3, #2
   175 00000126         
-  176 00000126 489C            ldr              r0, =LONG_ADR ; Enregistrement 
+  176 00000126 48BA            ldr              r0, =LONG_ADR ; Enregistrement 
                                                             de la longeur
   177 00000128 6003            str              r3, [r0]
   178 0000012A         
   179 0000012A F04F 0201       ldr              r2, =0x1    ; Définition du nom
                                                             bre de cligottement
                                                             
-  180 0000012E F000 F89A       BL               Clignottement
+  180 0000012E F000 F8A0       BL               Clignottement
   181 00000132         
   182 00000132 F7FF FFFE       BL               MOTEUR_DROIT_ON
   183 00000136 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
@@ -284,12 +284,12 @@ ARM Macro Assembler    Page 5
   185 0000013E F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
   186 00000142         
   187 00000142 F44F 01BE       ldr              r1, = ROT_TIME_180
-  188 00000146 F000 F87F       BL               wait
+  188 00000146 F000 F885       BL               wait
   189 0000014A         
   190 0000014A F7FF FFFE       BL               MOTEUR_DROIT_AVANT
   191 0000014E F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
   192 00000152         
-  193 00000152 4891            ldr              r0, =LONG_ADR
+  193 00000152 48AF            ldr              r0, =LONG_ADR
   194 00000154 6803            ldr              r3, [r0]
   195 00000156 EA4F 0353       LSR              r3, r3, #1  ; on divise la long
                                                             eur enregistré pour
@@ -306,7 +306,7 @@ ARM Macro Assembler    Page 5
   201 00000162 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
   202 00000166         
   203 00000166 F44F 113E       ldr              r1, = ROT_TIME_90
-  204 0000016A F000 F86D       BL               wait
+  204 0000016A F000 F873       BL               wait
   205 0000016E         
   206 0000016E F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
   207 00000172 F7FF FFFE       BL               MOTEUR_DROIT_OFF
@@ -314,14 +314,14 @@ ARM Macro Assembler    Page 5
   209 00000176 F7FF FFFE       BL               LED_DROITE_ON
   210 0000017A F7FF FFFE       BL               LED_GAUCHE_ON
   211 0000017E F44F 1180       ldr              r1, =0x100000
-  212 00000182 F000 F861       BL               wait
+  212 00000182 F000 F867       BL               wait
   213 00000186 F7FF FFFE       BL               LED_DROITE_OFF
   214 0000018A F7FF FFFE       BL               LED_GAUCHE_OFF
   215 0000018E         
   216 0000018E F04F 0202       ldr              r2, =0x2    ; Définition du nom
                                                             bre de cligottement
                                                             
-  217 00000192 F000 F868       BL               Clignottement
+  217 00000192 F000 F86E       BL               Clignottement
   218 00000196 E745            B                mode_passif_loop
 
 
@@ -333,232 +333,289 @@ ARM Macro Assembler    Page 6
   220 00000198         mode_surveillance
   221 00000198 F7FF FFFE       BL               LED_GAUCHE_ON
   222 0000019C F7FF FFFE       BL               LED_DROITE_ON
-  223 000001A0 F000 F85B       BL               wait_switch_2_free ; Attend que
+  223 000001A0 F000 F861       BL               wait_switch_2_free ; Attend que
                                                              l'utilisateur est 
                                                             éloigné son doigt
   224 000001A4 F44F 1180       ldr              r1, =0x100000
-  225 000001A8 F000 F84E       BL               wait
-  226 000001AC F04F 0203       ldr              r2, =0x3    ; Définition du nom
+  225 000001A8 F000 F854       BL               wait
+  226 000001AC F04F 0202       ldr              r2, =0x2    ; Définition du nom
                                                             bre de cligottement
                                                             
-  227 000001B0 F000 F859       BL               Clignottement
+  227 000001B0 F000 F85F       BL               Clignottement
   228 000001B4         
-  229 000001B4 4878            ldr              r0, =LONG_ADR
-  230 000001B6 6803            ldr              r3, [r0]
-  231 000001B8 F5A3 0370       sub              r3, #0xF00000
-  232 000001BC         
-  233 000001BC F7FF FFFE       BL               MOTEUR_DROIT_ON
-  234 000001C0 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
-  235 000001C4 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  236 000001C8 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
-  237 000001CC F44F 113E       ldr              r1, =ROT_TIME_90
-  238 000001D0 F000 F83A       BL               wait
-  239 000001D4         
-  240 000001D4 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  241 000001D8 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  242 000001DC         
-  243 000001DC EA4F 1413       LSR              r4, r3, #4
-  244 000001E0         mode_surveillance_loop_1
-  245 000001E0 F7FF FFFE       BL               BUMPER_DROIT
-  246 000001E4 2800            CMP              r0, #0x0
-  247 000001E6 D065            BEQ              interruption_surveillance
-  248 000001E8         
-  249 000001E8 F7FF FFFE       BL               BUMPER_GAUCHE
-  250 000001EC 2800            CMP              r0, #0x0
-  251 000001EE D061            BEQ              interruption_surveillance
-  252 000001F0         
-  253 000001F0 3C01            subs             r4, #1
-  254 000001F2 D1F5            BNE              mode_surveillance_loop_1
-  255 000001F4         
-  256 000001F4 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
-  257 000001F8 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  258 000001FC F44F 01BE       ldr              r1, =ROT_TIME_180
-  259 00000200 F000 F822       BL               wait
-  260 00000204 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  261 00000208 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  262 0000020C         
-  263 0000020C EA4F 04D3       LSR              r4, r3, #3
-  264 00000210 F000 F800       BL               mode_surveillance_loop_2
-  265 00000214         
-  266 00000214         mode_surveillance_loop_2
-  267 00000214 F7FF FFFE       BL               BUMPER_DROIT
-  268 00000218 2800            CMP              r0, #0x0
-  269 0000021A D04B            BEQ              interruption_surveillance
-  270 0000021C         
-  271 0000021C F7FF FFFE       BL               BUMPER_GAUCHE
-  272 00000220 2800            CMP              r0, #0x0
-  273 00000222 D047            BEQ              interruption_surveillance
+  229 000001B4 F000 F8FB       BL               animation_2
+  230 000001B8         
+  231 000001B8 F04F 0202       ldr              r2, =0x2    ; Définition du nom
+                                                            bre de cligottement
+                                                            
+  232 000001BC F000 F859       BL               Clignottement
+  233 000001C0         
+  234 000001C0 4893            ldr              r0, =LONG_ADR
+  235 000001C2 6803            ldr              r3, [r0]
+  236 000001C4 F5A3 0370       sub              r3, #0xF00000
+  237 000001C8         
+  238 000001C8 F7FF FFFE       BL               MOTEUR_DROIT_ON
+  239 000001CC F7FF FFFE       BL               MOTEUR_GAUCHE_ON
+  240 000001D0 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  241 000001D4 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  242 000001D8 F44F 113E       ldr              r1, =ROT_TIME_90
+  243 000001DC F000 F83A       BL               wait
+  244 000001E0         
+  245 000001E0 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  246 000001E4 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  247 000001E8         
+  248 000001E8 EA4F 1413       LSR              r4, r3, #4
+  249 000001EC         mode_surveillance_loop_1
+  250 000001EC F7FF FFFE       BL               BUMPER_DROIT
+  251 000001F0 2800            CMP              r0, #0x0
+  252 000001F2 D065            BEQ              interruption_surveillance
+  253 000001F4         
+  254 000001F4 F7FF FFFE       BL               BUMPER_GAUCHE
+  255 000001F8 2800            CMP              r0, #0x0
+  256 000001FA D061            BEQ              interruption_surveillance
+  257 000001FC         
+  258 000001FC 3C01            subs             r4, #1
+  259 000001FE D1F5            BNE              mode_surveillance_loop_1
+  260 00000200         
+  261 00000200 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  262 00000204 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  263 00000208 F44F 01BE       ldr              r1, =ROT_TIME_180
+  264 0000020C F000 F822       BL               wait
+  265 00000210 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  266 00000214 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  267 00000218         
+  268 00000218 EA4F 04D3       LSR              r4, r3, #3
+  269 0000021C F000 F800       BL               mode_surveillance_loop_2
+  270 00000220         
+  271 00000220         mode_surveillance_loop_2
 
 
 
 ARM Macro Assembler    Page 7 
 
 
-  274 00000224         
-  275 00000224 3C01            subs             r4, #1
-  276 00000226 D1F5            BNE              mode_surveillance_loop_2
-  277 00000228         
-  278 00000228 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
-  279 0000022C F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  280 00000230 F44F 01BE       ldr              r1, =ROT_TIME_180
-  281 00000234 F000 F808       BL               wait
-  282 00000238 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  283 0000023C F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  284 00000240         
-  285 00000240 EA4F 04D3       LSR              r4, r3, #3
-  286 00000244 F7FF FFCC       BL               mode_surveillance_loop_1
-  287 00000248         
-  288 00000248 3901    wait    subs             r1, #1
-  289 0000024A D1FD            bne              wait
-  290 0000024C 4770            BX               LR
-  291 0000024E         
-  292 0000024E B500    wait_switch_1_free
+  272 00000220 F7FF FFFE       BL               BUMPER_DROIT
+  273 00000224 2800            CMP              r0, #0x0
+  274 00000226 D04B            BEQ              interruption_surveillance
+  275 00000228         
+  276 00000228 F7FF FFFE       BL               BUMPER_GAUCHE
+  277 0000022C 2800            CMP              r0, #0x0
+  278 0000022E D047            BEQ              interruption_surveillance
+  279 00000230         
+  280 00000230 3C01            subs             r4, #1
+  281 00000232 D1F5            BNE              mode_surveillance_loop_2
+  282 00000234         
+  283 00000234 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  284 00000238 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  285 0000023C F44F 01BE       ldr              r1, =ROT_TIME_180
+  286 00000240 F000 F808       BL               wait
+  287 00000244 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  288 00000248 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  289 0000024C         
+  290 0000024C EA4F 04D3       LSR              r4, r3, #3
+  291 00000250 F7FF FFCC       BL               mode_surveillance_loop_1
+  292 00000254         
+  293 00000254 3901    wait    subs             r1, #1
+  294 00000256 D1FD            bne              wait
+  295 00000258 4770            BX               LR
+  296 0000025A         
+  297 0000025A B500    wait_switch_1_free
                                PUSH             {LR}
-  293 00000250         wait_switch_1_free2
-  294 00000250 F7FF FFFE       BL               SWITCH_1
-  295 00000254 2800            CMP              r0, #0x0
-  296 00000256 D0FB            BEQ              wait_switch_1_free2
-  297 00000258 BD00            POP              {PC}
-  298 0000025A         
-  299 0000025A B500    wait_switch_2_free
+  298 0000025C         wait_switch_1_free2
+  299 0000025C F7FF FFFE       BL               SWITCH_1
+  300 00000260 2800            CMP              r0, #0x0
+  301 00000262 D0FB            BEQ              wait_switch_1_free2
+  302 00000264 BD00            POP              {PC}
+  303 00000266         
+  304 00000266 B500    wait_switch_2_free
                                PUSH             {LR}
-  300 0000025C         wait_switch_2_free2
-  301 0000025C F7FF FFFE       BL               SWITCH_2
-  302 00000260 2800            CMP              r0, #0x0
-  303 00000262 D0FB            BEQ              wait_switch_2_free2
-  304 00000264 BD00            POP              {PC}
-  305 00000266         
-  306 00000266         Clignottement
-  307 00000266 B500            PUSH             {LR}
-  308 00000268 F7FF FFFE       BL               LED_GAUCHE_ON
-  309 0000026C F7FF FFFE       BL               LED_DROITE_ON
-  310 00000270         
-  311 00000270 F44F 2120       ldr              r1, =0x0A0000
-  312 00000274 F7FF FFE8       BL               wait
-  313 00000278         
-  314 00000278 F7FF FFFE       BL               LED_GAUCHE_OFF
-  315 0000027C F7FF FFFE       BL               LED_DROITE_OFF
-  316 00000280         
-  317 00000280 F44F 2120       ldr              r1, =0x0A0000
-  318 00000284 F7FF FFE0       BL               wait
-  319 00000288         
-  320 00000288 3A01            subs             r2, #1
-  321 0000028A BF18 F7FF 
+  305 00000268         wait_switch_2_free2
+  306 00000268 F7FF FFFE       BL               SWITCH_2
+  307 0000026C 2800            CMP              r0, #0x0
+  308 0000026E D0FB            BEQ              wait_switch_2_free2
+  309 00000270 BD00            POP              {PC}
+  310 00000272         
+  311 00000272         Clignottement
+  312 00000272 B500            PUSH             {LR}
+  313 00000274 F7FF FFFE       BL               LED_GAUCHE_ON
+  314 00000278 F7FF FFFE       BL               LED_DROITE_ON
+  315 0000027C         
+  316 0000027C F44F 2120       ldr              r1, =0x0A0000
+  317 00000280 F7FF FFE8       BL               wait
+  318 00000284         
+  319 00000284 F7FF FFFE       BL               LED_GAUCHE_OFF
+  320 00000288 F7FF FFFE       BL               LED_DROITE_OFF
+  321 0000028C         
+  322 0000028C F44F 2120       ldr              r1, =0x0A0000
+  323 00000290 F7FF FFE0       BL               wait
+  324 00000294         
+  325 00000294 3A01            subs             r2, #1
+  326 00000296 BF18 F7FF 
               FFEB             BLNE             Clignottement
-  322 00000290 BD00            POP              {PC}
-  323 00000292         
-  324 00000292         
-  325 00000292         interruption_reperage
-  326 00000292 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
-  327 00000296 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
-  328 0000029A         
-  329 0000029A F44F 1180       ldr              r1, =0x100000
+  327 0000029C BD00            POP              {PC}
 
 
 
 ARM Macro Assembler    Page 8 
 
 
-  330 0000029E F7FF FFD3       BL               wait
-  331 000002A2         
-  332 000002A2 F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
-  333 000002A6 F7FF FFFE       BL               MOTEUR_DROIT_OFF
-  334 000002AA         
-  335 000002AA F04F 0210       ldr              r2, =0x10   ; Définition du nom
+  328 0000029E         
+  329 0000029E         
+  330 0000029E         interruption_reperage
+  331 0000029E F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  332 000002A2 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  333 000002A6         
+  334 000002A6 F44F 1180       ldr              r1, =0x100000
+  335 000002AA F7FF FFD3       BL               wait
+  336 000002AE         
+  337 000002AE F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
+  338 000002B2 F7FF FFFE       BL               MOTEUR_DROIT_OFF
+  339 000002B6         
+  340 000002B6 F04F 0210       ldr              r2, =0x10   ; Définition du nom
                                                             bre de cligottement
                                                             
-  336 000002AE F7FF FFDA       BL               Clignottement
-  337 000002B2 E6B7            B                mode_passif_loop
-  338 000002B4         
-  339 000002B4         interruption_surveillance
-  340 000002B4 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
-  341 000002B8 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
-  342 000002BC         
-  343 000002BC F44F 2120       ldr              r1, =0x0A0000
-  344 000002C0 F7FF FFC2       BL               wait
-  345 000002C4         
-  346 000002C4 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  347 000002C8 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  348 000002CC         
-  349 000002CC F44F 2120       ldr              r1, =0x0A0000
-  350 000002D0 F7FF FFBA       BL               wait
-  351 000002D4         
-  352 000002D4 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
-  353 000002D8 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
-  354 000002DC         
-  355 000002DC F44F 2120       ldr              r1, =0x0A0000
-  356 000002E0 F7FF FFB2       BL               wait
-  357 000002E4         
-  358 000002E4 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  359 000002E8 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  360 000002EC         
-  361 000002EC F44F 2120       ldr              r1, =0x0A0000
-  362 000002F0 F7FF FFAA       BL               wait
-  363 000002F4         
-  364 000002F4 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
-  365 000002F8 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
-  366 000002FC         
-  367 000002FC F44F 2120       ldr              r1, =0x0A0000
-  368 00000300 F7FF FFA2       BL               wait
-  369 00000304         
-  370 00000304 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  371 00000308 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  372 0000030C         
-  373 0000030C E68A            B                mode_passif_loop
-  374 0000030E         
-  375 0000030E         animation_1
-  376 0000030E B500            PUSH             {LR}
-  377 00000310 F7FF FFFE       BL               MOTEUR_DROIT_ON
-  378 00000314 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
-  379 00000318 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  380 0000031C F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
-  381 00000320         
-  382 00000320 F44F 11BE       ldr              r1, =ROT_TIME_45
-  383 00000324 F7FF FF90       BL               wait
-  384 00000328         
-  385 00000328 F7FF FFFE       BL               MOTEUR_DROIT_OFF
-  386 0000032C F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
+  341 000002BA F7FF FFDA       BL               Clignottement
+  342 000002BE E6B1            B                mode_passif_loop
+  343 000002C0         
+  344 000002C0         interruption_surveillance
+  345 000002C0 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  346 000002C4 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  347 000002C8         
+  348 000002C8 F44F 2110       ldr              r1, =0x090000
+  349 000002CC F7FF FFC2       BL               wait
+  350 000002D0         
+  351 000002D0 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  352 000002D4 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  353 000002D8         
+  354 000002D8 F44F 2120       ldr              r1, =0x0A0000
+  355 000002DC F7FF FFBA       BL               wait
+  356 000002E0         
+  357 000002E0 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  358 000002E4 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  359 000002E8         
+  360 000002E8 F44F 2110       ldr              r1, =0x090000
+  361 000002EC F7FF FFB2       BL               wait
+  362 000002F0         
+  363 000002F0 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  364 000002F4 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  365 000002F8         
+  366 000002F8 F44F 2120       ldr              r1, =0x0A0000
+  367 000002FC F7FF FFAA       BL               wait
+  368 00000300         
+  369 00000300 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  370 00000304 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  371 00000308         
+  372 00000308 F44F 2110       ldr              r1, =0x090000
+  373 0000030C F7FF FFA2       BL               wait
+  374 00000310         
+  375 00000310 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  376 00000314 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  377 00000318         
+  378 00000318 F44F 2120       ldr              r1, =0x0A0000
+  379 0000031C F7FF FF9A       BL               wait
+  380 00000320         
+  381 00000320 F7FF FFFE       BL               MOTEUR_DROIT_OFF
+  382 00000324 F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
+  383 00000328         
+  384 00000328 F04F 0210       ldr              r2, =0x10   ; Définition du nom
 
 
 
 ARM Macro Assembler    Page 9 
 
 
-  387 00000330         
-  388 00000330 F44F 1100       ldr              r1, = 0x200000
-  389 00000334 F7FF FF88       BL               wait
-  390 00000338         
-  391 00000338 F7FF FFFE       BL               MOTEUR_DROIT_ON
-  392 0000033C F7FF FFFE       BL               MOTEUR_GAUCHE_ON
-  393 00000340 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
-  394 00000344 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
-  395 00000348         
-  396 00000348 F44F 113E       ldr              r1, =ROT_TIME_90
-  397 0000034C F7FF FF7C       BL               wait
-  398 00000350         
-  399 00000350 F7FF FFFE       BL               MOTEUR_DROIT_OFF
-  400 00000354 F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
-  401 00000358         
-  402 00000358 F44F 1100       ldr              r1, = 0x200000
-  403 0000035C F7FF FF74       BL               wait
-  404 00000360         
-  405 00000360 F7FF FFFE       BL               MOTEUR_DROIT_ON
-  406 00000364 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
-  407 00000368 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
-  408 0000036C F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
-  409 00000370         
-  410 00000370 F44F 11BE       ldr              r1, =ROT_TIME_45
-  411 00000374 F7FF FF68       BL               wait
-  412 00000378         
-  413 00000378 F7FF FFFE       BL               MOTEUR_DROIT_OFF
-  414 0000037C F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
-  415 00000380 F44F 01A0       ldr              r1, = 0x500000
-  416 00000384 F7FF FF60       BL               wait
-  417 00000388 BD00            POP              {PC}
-  418 0000038A         
-  419 0000038A         
-  420 0000038A BF00            nop
-  421 0000038C                 END
+                                                            bre de cligottement
+                                                            
+  385 0000032C F7FF FFA1       BL               Clignottement
+  386 00000330         
+  387 00000330 E678            B                mode_passif_loop
+  388 00000332         
+  389 00000332         animation_1
+  390 00000332 B500            PUSH             {LR}
+  391 00000334 F7FF FFFE       BL               MOTEUR_DROIT_ON
+  392 00000338 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
+  393 0000033C F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  394 00000340 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  395 00000344         
+  396 00000344 F44F 11BE       ldr              r1, =ROT_TIME_45
+  397 00000348 F7FF FF84       BL               wait
+  398 0000034C         
+  399 0000034C F7FF FFFE       BL               MOTEUR_DROIT_OFF
+  400 00000350 F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
+  401 00000354         
+  402 00000354 F44F 11D0       ldr              r1, = 0x1A0000
+  403 00000358 F7FF FF7C       BL               wait
+  404 0000035C         
+  405 0000035C F7FF FFFE       BL               MOTEUR_DROIT_ON
+  406 00000360 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
+  407 00000364 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  408 00000368 F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  409 0000036C         
+  410 0000036C F44F 113E       ldr              r1, =ROT_TIME_90
+  411 00000370 F7FF FF70       BL               wait
+  412 00000374         
+  413 00000374 F7FF FFFE       BL               MOTEUR_DROIT_OFF
+  414 00000378 F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
+  415 0000037C         
+  416 0000037C F44F 1128       ldr              r1, = 0x2A0000
+  417 00000380 F7FF FF68       BL               wait
+  418 00000384         
+  419 00000384 F7FF FFFE       BL               MOTEUR_DROIT_ON
+  420 00000388 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
+  421 0000038C F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  422 00000390 F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  423 00000394         
+  424 00000394 F44F 11BE       ldr              r1, =ROT_TIME_45
+  425 00000398 F7FF FF5C       BL               wait
+  426 0000039C         
+  427 0000039C F7FF FFFE       BL               MOTEUR_DROIT_OFF
+  428 000003A0 F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
+  429 000003A4 F44F 01A0       ldr              r1, = 0x500000
+  430 000003A8 F7FF FF54       BL               wait
+  431 000003AC BD00            POP              {PC}
+  432 000003AE         
+  433 000003AE         animation_2
+  434 000003AE B500            PUSH             {LR}
+  435 000003B0 F7FF FFFE       BL               MOTEUR_DROIT_ON
+  436 000003B4 F7FF FFFE       BL               MOTEUR_GAUCHE_ON
+  437 000003B8         
+  438 000003B8 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  439 000003BC F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  440 000003C0         
+  441 000003C0 F44F 2120       ldr              r1, =0x0A0000
+
+
+
+ARM Macro Assembler    Page 10 
+
+
+  442 000003C4 F7FF FF46       BL               wait
+  443 000003C8         
+  444 000003C8 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  445 000003CC F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  446 000003D0         
+  447 000003D0 F44F 2120       ldr              r1, =0x0A0000
+  448 000003D4 F7FF FF3E       BL               wait
+  449 000003D8         
+  450 000003D8 F7FF FFFE       BL               MOTEUR_DROIT_AVANT
+  451 000003DC F7FF FFFE       BL               MOTEUR_GAUCHE_AVANT
+  452 000003E0         
+  453 000003E0 F44F 2120       ldr              r1, =0x0A0000
+  454 000003E4 F7FF FF36       BL               wait
+  455 000003E8         
+  456 000003E8 F7FF FFFE       BL               MOTEUR_DROIT_ARRIERE
+  457 000003EC F7FF FFFE       BL               MOTEUR_GAUCHE_ARRIERE
+  458 000003F0         
+  459 000003F0 F44F 2120       ldr              r1, =0x0A0000
+  460 000003F4 F7FF FF2E       BL               wait
+  461 000003F8         
+  462 000003F8 F7FF FFFE       BL               MOTEUR_DROIT_OFF
+  463 000003FC F7FF FFFE       BL               MOTEUR_GAUCHE_OFF
+  464 00000400         
+  465 00000400 BD00            POP              {PC}
+  466 00000402         
+  467 00000402 BF00            nop
+  468 00000404                 END
               E000EDFC 
               E0001000 
               E0001004 
@@ -584,11 +641,11 @@ Symbol: .text
    Uses
       None
 Comment: .text unused
-Clignottement 00000266
+Clignottement 00000272
 
 Symbol: Clignottement
    Definitions
-      At line 306 in file Programs\main.s
+      At line 311 in file Programs\main.s
    Uses
       At line 87 in file Programs\main.s
       At line 92 in file Programs\main.s
@@ -596,8 +653,10 @@ Symbol: Clignottement
       At line 180 in file Programs\main.s
       At line 217 in file Programs\main.s
       At line 227 in file Programs\main.s
-      At line 321 in file Programs\main.s
-      At line 336 in file Programs\main.s
+      At line 232 in file Programs\main.s
+      At line 326 in file Programs\main.s
+      At line 341 in file Programs\main.s
+      At line 385 in file Programs\main.s
 
 __main 00000000
 
@@ -607,40 +666,48 @@ Symbol: __main
    Uses
       At line 41 in file Programs\main.s
 Comment: __main used once
-animation_1 0000030E
+animation_1 00000332
 
 Symbol: animation_1
    Definitions
-      At line 375 in file Programs\main.s
+      At line 389 in file Programs\main.s
    Uses
       At line 89 in file Programs\main.s
 Comment: animation_1 used once
-interruption_reperage 00000292
+animation_2 000003AE
+
+Symbol: animation_2
+   Definitions
+      At line 433 in file Programs\main.s
+   Uses
+      At line 229 in file Programs\main.s
+Comment: animation_2 used once
+interruption_reperage 0000029E
 
 Symbol: interruption_reperage
    Definitions
-      At line 325 in file Programs\main.s
+      At line 330 in file Programs\main.s
    Uses
       None
 Comment: interruption_reperage unused
-interruption_surveillance 000002B4
+interruption_surveillance 000002C0
 
-Symbol: interruption_surveillance
-   Definitions
-      At line 339 in file Programs\main.s
-   Uses
-      At line 247 in file Programs\main.s
-      At line 251 in file Programs\main.s
-      At line 269 in file Programs\main.s
-      At line 273 in file Programs\main.s
-
-mode_passif_loop 00000024
 
 
 
 ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
+Symbol: interruption_surveillance
+   Definitions
+      At line 344 in file Programs\main.s
+   Uses
+      At line 252 in file Programs\main.s
+      At line 256 in file Programs\main.s
+      At line 274 in file Programs\main.s
+      At line 278 in file Programs\main.s
+
+mode_passif_loop 00000024
 
 Symbol: mode_passif_loop
    Definitions
@@ -648,8 +715,8 @@ Symbol: mode_passif_loop
    Uses
       At line 74 in file Programs\main.s
       At line 218 in file Programs\main.s
-      At line 337 in file Programs\main.s
-      At line 373 in file Programs\main.s
+      At line 342 in file Programs\main.s
+      At line 387 in file Programs\main.s
 
 mode_reperage_phase_1 00000050
 
@@ -690,6 +757,12 @@ Symbol: mode_reperage_phase_3
    Definitions
       At line 157 in file Programs\main.s
    Uses
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
       At line 149 in file Programs\main.s
       At line 153 in file Programs\main.s
 
@@ -700,12 +773,6 @@ Symbol: mode_reperage_phase_3_loop
       At line 196 in file Programs\main.s
    Uses
       At line 198 in file Programs\main.s
-
-
-
-ARM Macro Assembler    Page 3 Alphabetic symbol ordering
-Relocatable symbols
-
 Comment: mode_reperage_phase_3_loop used once
 mode_surveillance 00000198
 
@@ -715,29 +782,29 @@ Symbol: mode_surveillance
    Uses
       At line 72 in file Programs\main.s
 Comment: mode_surveillance used once
-mode_surveillance_loop_1 000001E0
+mode_surveillance_loop_1 000001EC
 
 Symbol: mode_surveillance_loop_1
    Definitions
-      At line 244 in file Programs\main.s
+      At line 249 in file Programs\main.s
    Uses
-      At line 254 in file Programs\main.s
-      At line 286 in file Programs\main.s
+      At line 259 in file Programs\main.s
+      At line 291 in file Programs\main.s
 
-mode_surveillance_loop_2 00000214
+mode_surveillance_loop_2 00000220
 
 Symbol: mode_surveillance_loop_2
    Definitions
-      At line 266 in file Programs\main.s
+      At line 271 in file Programs\main.s
    Uses
-      At line 264 in file Programs\main.s
-      At line 276 in file Programs\main.s
+      At line 269 in file Programs\main.s
+      At line 281 in file Programs\main.s
 
-wait 00000248
+wait 00000254
 
 Symbol: wait
    Definitions
-      At line 288 in file Programs\main.s
+      At line 293 in file Programs\main.s
    Uses
       At line 84 in file Programs\main.s
       At line 99 in file Programs\main.s
@@ -748,64 +815,69 @@ Symbol: wait
       At line 204 in file Programs\main.s
       At line 212 in file Programs\main.s
       At line 225 in file Programs\main.s
-      At line 238 in file Programs\main.s
-      At line 259 in file Programs\main.s
-      At line 281 in file Programs\main.s
-      At line 289 in file Programs\main.s
-      At line 312 in file Programs\main.s
-      At line 318 in file Programs\main.s
-      At line 330 in file Programs\main.s
-      At line 344 in file Programs\main.s
-      At line 350 in file Programs\main.s
-      At line 356 in file Programs\main.s
-      At line 362 in file Programs\main.s
-      At line 368 in file Programs\main.s
-      At line 383 in file Programs\main.s
-      At line 389 in file Programs\main.s
-      At line 397 in file Programs\main.s
-      At line 403 in file Programs\main.s
-      At line 411 in file Programs\main.s
+      At line 243 in file Programs\main.s
+      At line 264 in file Programs\main.s
+      At line 286 in file Programs\main.s
+      At line 294 in file Programs\main.s
+      At line 317 in file Programs\main.s
+      At line 323 in file Programs\main.s
+      At line 335 in file Programs\main.s
 
 
 
 ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 416 in file Programs\main.s
+      At line 349 in file Programs\main.s
+      At line 355 in file Programs\main.s
+      At line 361 in file Programs\main.s
+      At line 367 in file Programs\main.s
+      At line 373 in file Programs\main.s
+      At line 379 in file Programs\main.s
+      At line 397 in file Programs\main.s
+      At line 403 in file Programs\main.s
+      At line 411 in file Programs\main.s
+      At line 417 in file Programs\main.s
+      At line 425 in file Programs\main.s
+      At line 430 in file Programs\main.s
+      At line 442 in file Programs\main.s
+      At line 448 in file Programs\main.s
+      At line 454 in file Programs\main.s
+      At line 460 in file Programs\main.s
 
-wait_switch_1_free 0000024E
+wait_switch_1_free 0000025A
 
 Symbol: wait_switch_1_free
    Definitions
-      At line 292 in file Programs\main.s
+      At line 297 in file Programs\main.s
    Uses
       At line 81 in file Programs\main.s
 Comment: wait_switch_1_free used once
-wait_switch_1_free2 00000250
+wait_switch_1_free2 0000025C
 
 Symbol: wait_switch_1_free2
    Definitions
-      At line 293 in file Programs\main.s
+      At line 298 in file Programs\main.s
    Uses
-      At line 296 in file Programs\main.s
+      At line 301 in file Programs\main.s
 Comment: wait_switch_1_free2 used once
-wait_switch_2_free 0000025A
+wait_switch_2_free 00000266
 
 Symbol: wait_switch_2_free
    Definitions
-      At line 299 in file Programs\main.s
+      At line 304 in file Programs\main.s
    Uses
       At line 223 in file Programs\main.s
 Comment: wait_switch_2_free used once
-wait_switch_2_free2 0000025C
+wait_switch_2_free2 00000268
 
 Symbol: wait_switch_2_free2
    Definitions
-      At line 300 in file Programs\main.s
+      At line 305 in file Programs\main.s
    Uses
-      At line 303 in file Programs\main.s
+      At line 308 in file Programs\main.s
 Comment: wait_switch_2_free2 used once
-21 symbols
+22 symbols
 
 
 
@@ -828,7 +900,7 @@ Symbol: LONG_ADR
    Uses
       At line 176 in file Programs\main.s
       At line 193 in file Programs\main.s
-      At line 229 in file Programs\main.s
+      At line 234 in file Programs\main.s
 
 ROT_TIME_180 005F0000
 
@@ -838,8 +910,8 @@ Symbol: ROT_TIME_180
    Uses
       At line 139 in file Programs\main.s
       At line 187 in file Programs\main.s
-      At line 258 in file Programs\main.s
-      At line 280 in file Programs\main.s
+      At line 263 in file Programs\main.s
+      At line 285 in file Programs\main.s
 
 ROT_TIME_360 00BC0000
 
@@ -855,8 +927,8 @@ Symbol: ROT_TIME_45
    Definitions
       At line 34 in file Programs\main.s
    Uses
-      At line 382 in file Programs\main.s
-      At line 410 in file Programs\main.s
+      At line 396 in file Programs\main.s
+      At line 424 in file Programs\main.s
 
 ROT_TIME_90 002F8000
 
@@ -866,8 +938,8 @@ Symbol: ROT_TIME_90
    Uses
       At line 98 in file Programs\main.s
       At line 203 in file Programs\main.s
-      At line 237 in file Programs\main.s
-      At line 396 in file Programs\main.s
+      At line 242 in file Programs\main.s
+      At line 410 in file Programs\main.s
 
 6 symbols
 
@@ -884,8 +956,8 @@ Symbol: BUMPER_DROIT
    Uses
       At line 105 in file Programs\main.s
       At line 147 in file Programs\main.s
-      At line 245 in file Programs\main.s
-      At line 267 in file Programs\main.s
+      At line 250 in file Programs\main.s
+      At line 272 in file Programs\main.s
 
 BUMPER_GAUCHE 00000000
 
@@ -895,8 +967,8 @@ Symbol: BUMPER_GAUCHE
    Uses
       At line 109 in file Programs\main.s
       At line 151 in file Programs\main.s
-      At line 249 in file Programs\main.s
-      At line 271 in file Programs\main.s
+      At line 254 in file Programs\main.s
+      At line 276 in file Programs\main.s
 
 BUMPER_INIT 00000000
 
@@ -914,7 +986,7 @@ Symbol: LED_DROITE_OFF
    Uses
       At line 61 in file Programs\main.s
       At line 213 in file Programs\main.s
-      At line 315 in file Programs\main.s
+      At line 320 in file Programs\main.s
 
 LED_DROITE_ON 00000000
 
@@ -925,7 +997,7 @@ Symbol: LED_DROITE_ON
       At line 78 in file Programs\main.s
       At line 209 in file Programs\main.s
       At line 222 in file Programs\main.s
-      At line 309 in file Programs\main.s
+      At line 314 in file Programs\main.s
 
 LED_GAUCHE_OFF 00000000
 
@@ -941,7 +1013,7 @@ Symbol: LED_GAUCHE_OFF
 ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 External symbols
 
-      At line 314 in file Programs\main.s
+      At line 319 in file Programs\main.s
 
 LED_GAUCHE_ON 00000000
 
@@ -952,7 +1024,7 @@ Symbol: LED_GAUCHE_ON
       At line 77 in file Programs\main.s
       At line 210 in file Programs\main.s
       At line 221 in file Programs\main.s
-      At line 308 in file Programs\main.s
+      At line 313 in file Programs\main.s
 
 LED_INIT 00000000
 
@@ -972,13 +1044,15 @@ Symbol: MOTEUR_DROIT_ARRIERE
       At line 136 in file Programs\main.s
       At line 159 in file Programs\main.s
       At line 200 in file Programs\main.s
-      At line 256 in file Programs\main.s
-      At line 278 in file Programs\main.s
-      At line 326 in file Programs\main.s
-      At line 340 in file Programs\main.s
-      At line 352 in file Programs\main.s
-      At line 364 in file Programs\main.s
-      At line 393 in file Programs\main.s
+      At line 261 in file Programs\main.s
+      At line 283 in file Programs\main.s
+      At line 331 in file Programs\main.s
+      At line 345 in file Programs\main.s
+      At line 357 in file Programs\main.s
+      At line 369 in file Programs\main.s
+      At line 407 in file Programs\main.s
+      At line 444 in file Programs\main.s
+      At line 456 in file Programs\main.s
 
 MOTEUR_DROIT_AVANT 00000000
 
@@ -991,21 +1065,23 @@ Symbol: MOTEUR_DROIT_AVANT
       At line 142 in file Programs\main.s
       At line 184 in file Programs\main.s
       At line 190 in file Programs\main.s
-      At line 235 in file Programs\main.s
       At line 240 in file Programs\main.s
-      At line 260 in file Programs\main.s
-      At line 282 in file Programs\main.s
-      At line 346 in file Programs\main.s
-      At line 358 in file Programs\main.s
-      At line 370 in file Programs\main.s
-      At line 379 in file Programs\main.s
-      At line 407 in file Programs\main.s
+      At line 245 in file Programs\main.s
+      At line 265 in file Programs\main.s
+      At line 287 in file Programs\main.s
+      At line 351 in file Programs\main.s
+      At line 363 in file Programs\main.s
+      At line 375 in file Programs\main.s
 
 
 
 ARM Macro Assembler    Page 3 Alphabetic symbol ordering
 External symbols
 
+      At line 393 in file Programs\main.s
+      At line 421 in file Programs\main.s
+      At line 438 in file Programs\main.s
+      At line 450 in file Programs\main.s
 
 MOTEUR_DROIT_OFF 00000000
 
@@ -1017,10 +1093,12 @@ Symbol: MOTEUR_DROIT_OFF
       At line 124 in file Programs\main.s
       At line 165 in file Programs\main.s
       At line 207 in file Programs\main.s
-      At line 333 in file Programs\main.s
-      At line 385 in file Programs\main.s
+      At line 338 in file Programs\main.s
+      At line 381 in file Programs\main.s
       At line 399 in file Programs\main.s
       At line 413 in file Programs\main.s
+      At line 427 in file Programs\main.s
+      At line 462 in file Programs\main.s
 
 MOTEUR_DROIT_ON 00000000
 
@@ -1031,10 +1109,11 @@ Symbol: MOTEUR_DROIT_ON
       At line 94 in file Programs\main.s
       At line 134 in file Programs\main.s
       At line 182 in file Programs\main.s
-      At line 233 in file Programs\main.s
-      At line 377 in file Programs\main.s
+      At line 238 in file Programs\main.s
       At line 391 in file Programs\main.s
       At line 405 in file Programs\main.s
+      At line 419 in file Programs\main.s
+      At line 435 in file Programs\main.s
 
 MOTEUR_GAUCHE_ARRIERE 00000000
 
@@ -1046,15 +1125,23 @@ Symbol: MOTEUR_GAUCHE_ARRIERE
       At line 119 in file Programs\main.s
       At line 160 in file Programs\main.s
       At line 185 in file Programs\main.s
-      At line 236 in file Programs\main.s
-      At line 327 in file Programs\main.s
-      At line 341 in file Programs\main.s
-      At line 353 in file Programs\main.s
-      At line 365 in file Programs\main.s
-      At line 380 in file Programs\main.s
-      At line 408 in file Programs\main.s
+      At line 241 in file Programs\main.s
+      At line 332 in file Programs\main.s
+      At line 346 in file Programs\main.s
+      At line 358 in file Programs\main.s
+      At line 370 in file Programs\main.s
+      At line 394 in file Programs\main.s
+      At line 422 in file Programs\main.s
+      At line 445 in file Programs\main.s
+      At line 457 in file Programs\main.s
 
 MOTEUR_GAUCHE_AVANT 00000000
+
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+External symbols
 
 Symbol: MOTEUR_GAUCHE_AVANT
    Definitions
@@ -1065,21 +1152,17 @@ Symbol: MOTEUR_GAUCHE_AVANT
       At line 143 in file Programs\main.s
       At line 191 in file Programs\main.s
       At line 201 in file Programs\main.s
-
-
-
-ARM Macro Assembler    Page 4 Alphabetic symbol ordering
-External symbols
-
-      At line 241 in file Programs\main.s
-      At line 257 in file Programs\main.s
-      At line 261 in file Programs\main.s
-      At line 279 in file Programs\main.s
-      At line 283 in file Programs\main.s
-      At line 347 in file Programs\main.s
-      At line 359 in file Programs\main.s
-      At line 371 in file Programs\main.s
-      At line 394 in file Programs\main.s
+      At line 246 in file Programs\main.s
+      At line 262 in file Programs\main.s
+      At line 266 in file Programs\main.s
+      At line 284 in file Programs\main.s
+      At line 288 in file Programs\main.s
+      At line 352 in file Programs\main.s
+      At line 364 in file Programs\main.s
+      At line 376 in file Programs\main.s
+      At line 408 in file Programs\main.s
+      At line 439 in file Programs\main.s
+      At line 451 in file Programs\main.s
 
 MOTEUR_GAUCHE_OFF 00000000
 
@@ -1091,10 +1174,12 @@ Symbol: MOTEUR_GAUCHE_OFF
       At line 125 in file Programs\main.s
       At line 166 in file Programs\main.s
       At line 206 in file Programs\main.s
-      At line 332 in file Programs\main.s
-      At line 386 in file Programs\main.s
+      At line 337 in file Programs\main.s
+      At line 382 in file Programs\main.s
       At line 400 in file Programs\main.s
       At line 414 in file Programs\main.s
+      At line 428 in file Programs\main.s
+      At line 463 in file Programs\main.s
 
 MOTEUR_GAUCHE_ON 00000000
 
@@ -1105,10 +1190,11 @@ Symbol: MOTEUR_GAUCHE_ON
       At line 95 in file Programs\main.s
       At line 135 in file Programs\main.s
       At line 183 in file Programs\main.s
-      At line 234 in file Programs\main.s
-      At line 378 in file Programs\main.s
+      At line 239 in file Programs\main.s
       At line 392 in file Programs\main.s
       At line 406 in file Programs\main.s
+      At line 420 in file Programs\main.s
+      At line 436 in file Programs\main.s
 
 MOTEUR_INIT 00000000
 
@@ -1116,6 +1202,12 @@ Symbol: MOTEUR_INIT
    Definitions
       At line 5 in file Programs\main.s
    Uses
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+External symbols
+
       At line 44 in file Programs\main.s
 Comment: MOTEUR_INIT used once
 SWITCH_1 00000000
@@ -1125,22 +1217,16 @@ Symbol: SWITCH_1
       At line 24 in file Programs\main.s
    Uses
       At line 66 in file Programs\main.s
-      At line 294 in file Programs\main.s
+      At line 299 in file Programs\main.s
 
 SWITCH_2 00000000
 
 Symbol: SWITCH_2
-
-
-
-ARM Macro Assembler    Page 5 Alphabetic symbol ordering
-External symbols
-
    Definitions
       At line 25 in file Programs\main.s
    Uses
       At line 70 in file Programs\main.s
-      At line 301 in file Programs\main.s
+      At line 306 in file Programs\main.s
 
 SWITCH_INIT 00000000
 
@@ -1151,4 +1237,4 @@ Symbol: SWITCH_INIT
       At line 46 in file Programs\main.s
 Comment: SWITCH_INIT used once
 20 symbols
-383 symbols in table
+384 symbols in table

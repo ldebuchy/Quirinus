@@ -388,11 +388,6 @@
               <FilePath>.\Programs\main.s</FilePath>
             </File>
             <File>
-              <FileName>led_config.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Programs\led_config.s</FilePath>
-            </File>
-            <File>
               <FileName>motor_config.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Programs\motor_config.s</FilePath>
@@ -406,6 +401,11 @@
               <FileName>bumper_config.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Programs\bumper_config.s</FilePath>
+            </File>
+            <File>
+              <FileName>led_config.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Programs\led_config.s</FilePath>
             </File>
           </Files>
         </Group>
