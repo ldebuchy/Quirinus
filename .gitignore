@@ -1,0 +1,31 @@
+# Keil µVision build output
+Objects/
+Listings/
+*.o
+*.d
+*.crf
+*.axf
+*.hex
+*.lst
+*.map
+*.htm
+*.dep
+*.lnp
+*.sct
+*.iex
+*.bak
+
+# Keil generated / user-specific files
+*.uvguix.*
+EventRecorderStub.scvd
+JLinkLog.txt
+
+# Archives
+*.zip
+
+# IDE and OS
+.idea/
+.vscode/
+Thumbs.db
+desktop.ini
+.DS_Store
