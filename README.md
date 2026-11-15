@@ -6,7 +6,7 @@
 
 **An autonomous guard robot written entirely in ARM Cortex-M3 assembly, running bare-metal on a Texas Instruments Stellaris EvalBot.**
 
-Quirinus measures the room it is placed in, positions itself in the middle, then patrols that area and attacks any intruder it bumps into with a pen fixed to its side. There is no C, no RTOS and no driver library: every peripheral (PWM, GPIO, cycle counter) is configured directly at register level from the microcontroller datasheet.
+Quirinus measures its patrol zone, positions itself in the middle of it, then patrols that zone and attacks any intruder it bumps into with a pen fixed to its side. There is no C, no RTOS and no driver library: every peripheral (PWM, GPIO, cycle counter) is configured directly at register level from the microcontroller datasheet.
 
 ![Language](https://img.shields.io/badge/language-ARM%20Assembly-blue)
 ![Target](https://img.shields.io/badge/target-Cortex--M3%20(LM3S9B92)-informational)
@@ -23,7 +23,7 @@ Open-ended project for an embedded systems course at ESIEE Paris: the only requi
 
 ## Features
 
-- **Discovery mode**: the robot drives to a wall, turns around, crosses the area to the opposite wall while timing the run with the hardware cycle counter, stores the measured length in RAM, then comes back to the centre.
+- **Discovery mode**: the robot drives to one edge of its patrol zone, turns around, crosses the zone to the opposite edge while timing the run with the hardware cycle counter, stores the measured length in RAM, then comes back to the centre.
 - **Guard mode**: using the stored length, the robot patrols back and forth around its starting point, making a U-turn at each end of its route.
 - **Intruder attack**: if a bumper is hit during the patrol, the robot moves back and forth three times to stab the intruder with its pen, then flashes its LEDs and returns to standby.
 - **User feedback**: LED blink codes and short motor "animations" confirm each mode change, so the robot can be operated without a screen.
@@ -47,9 +47,9 @@ stateDiagram-v2
 
 **Standby.** Motors and LEDs are off and the program polls the two push buttons.
 
-**Discovery.** After a 90° turn, the robot moves forward until a bumper is triggered, backs up and makes a 180° turn. At that point it reads the `DWT_CYCCNT` register, drives to the opposite wall and reads the counter again. The difference gives a value proportional to the width of the area, which is saved in SRAM. The robot then turns around and drives for half of that time to stop in the middle.
+**Discovery.** After a 90° turn, the robot moves forward until a bumper is triggered, backs up and makes a 180° turn. At that point it reads the `DWT_CYCCNT` register, drives to the opposite edge of the zone and reads the counter again. The difference gives a value proportional to the width of the patrol zone, which is saved in SRAM. The robot then turns around and drives for half of that time to stop in the middle.
 
-**Guard.** The robot reuses the measured length to compute the size of its patrol route, so it adapts to the room without any hardcoded distance. Bumpers are checked continuously while it moves.
+**Guard.** The robot reuses the measured length to compute the size of its patrol route, so it adapts to whatever zone it is given without any hardcoded distance. Bumpers are checked continuously while it moves.
 
 **Attack.** When a bumper is pressed, the robot alternates short backward and forward moves so the pen pecks at whatever it has hit, then signals the detection with a fast LED blink sequence.
 
